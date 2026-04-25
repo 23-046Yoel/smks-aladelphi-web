@@ -25,6 +25,10 @@ Route::get('/tentang/visi-misi', function () {
 Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'login']);
 
+// Google Auth Routes
+Route::get('/auth/google', [App\Http\Controllers\GoogleLoginController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('/auth/google/callback', [App\Http\Controllers\GoogleLoginController::class, 'handleGoogleCallback']);
+
 // SPMB Online Routes
 Route::get('/spmb', [App\Http\Controllers\SpmbController::class, 'index'])->name('spmb.index');
 Route::get('/spmb/daftar', [App\Http\Controllers\SpmbController::class, 'create'])->name('spmb.create');

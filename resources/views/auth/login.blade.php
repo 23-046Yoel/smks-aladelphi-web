@@ -89,32 +89,59 @@
         .back-home:hover {
             color: var(--red);
         }
+        .btn-google {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 12px;
+            background: white;
+            color: var(--dark);
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: 0.3s;
+            margin-top: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .btn-google img {
+            height: 24px;
+            margin-right: 12px;
+            margin-bottom: 0;
+        }
+        .btn-google:hover {
+            background: #f8f9fa;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .alert-error {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid #ffcdd2;
+        }
     </style>
 </head>
 <body>
     <div class="login-card">
         <img src="{{ asset('images/official_logo.png') }}" alt="Logo">
         <h2>LOGIN SISTEM</h2>
-        <form action="{{ url('/login') }}" method="POST">
-            @csrf
-            <div class="form-group">
-                <label>Pilih Akses</label>
-                <select name="role">
-                    <option value="admin">Administrator / Operator</option>
-                    <option value="guru">Guru / Tenaga Pendidik</option>
-                    <option value="staff">Staff Administrasi</option>
-                </select>
+        @if(session('error'))
+            <div class="alert-error">
+                {{ session('error') }}
             </div>
-            <div class="form-group">
-                <label>Username / Email</label>
-                <input type="text" placeholder="Masukkan username">
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" placeholder="••••••••">
-            </div>
-            <button type="submit" class="btn-login">MASUK KE SISTEM</button>
-        </form>
+        @endif
+
+        <a href="{{ route('google.login') }}" class="btn-google">
+            <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google Logo">
+            Login dengan Google
+        </a>
         <a href="{{ url('/') }}" class="back-home"> Kembali ke Beranda</a>
     </div>
 </body>
