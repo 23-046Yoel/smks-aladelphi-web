@@ -65,6 +65,8 @@ Route::prefix('admin')->group(function () {
     Route::get('/finance', [App\Http\Controllers\FinanceController::class, 'adminIndex'])->name('admin.finance.index');
     Route::post('/finance', [App\Http\Controllers\FinanceController::class, 'store'])->name('admin.finance.store');
     Route::get('/spp', [App\Http\Controllers\FinanceController::class, 'adminSppIndex'])->name('admin.spp.index');
+    Route::post('/spp/student', [App\Http\Controllers\FinanceController::class, 'storeStudent'])->name('admin.spp.student.store');
+    Route::post('/spp/pay', [App\Http\Controllers\FinanceController::class, 'storeSpp'])->name('admin.spp.store');
     // Posts
     Route::get('/posts', [App\Http\Controllers\PostController::class, 'adminIndex'])->name('admin.posts.index');
     Route::get('/posts/create', [App\Http\Controllers\PostController::class, 'create'])->name('admin.posts.create');

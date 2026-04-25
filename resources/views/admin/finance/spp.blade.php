@@ -166,6 +166,33 @@
             color: #333;
         }
         .btn-print:hover { background: #e0e0e0; }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+        }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 8px; color: #555; font-weight: 600; }
+        .form-group input { 
+            width: 100%; padding: 12px 15px; 
+            border: 2px solid #eee; border-radius: 10px; 
+            font-family: 'Outfit'; font-size: 1rem; box-sizing: border-box;
+        }
+        .form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 30px; }
     </style>
 </head>
 <body>
@@ -198,7 +225,11 @@
         </div>
 
         <div class="panel">
-            <h3>Cari Siswa Berdasarkan NIS</h3>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="margin: 0;">Cari Siswa Berdasarkan NIS</h3>
+                <button class="btn" style="background: var(--dark);" onclick="openModal()"><i class="fas fa-user-plus"></i> Tambah Data Siswa</button>
+            </div>
+            
             <form action="{{ route('admin.spp.index') }}" method="GET" class="search-box">
                 <input type="text" name="nis" placeholder="Masukkan Nomor Induk Siswa (NIS)..." value="{{ request('nis') }}" required>
                 <button type="submit" class="btn"><i class="fas fa-search"></i> Cari Data</button>
@@ -206,7 +237,7 @@
 
             @if(request()->has('nis') && !$selectedStudent)
                 <div style="color: var(--red); background: #ffe6e6; padding: 15px; border-radius: 10px;">
-                    Siswa dengan NIS "{{ request('nis') }}" tidak ditemukan.
+                    Siswa dengan NIS "{{ request('nis') }}" tidak ditemukan. Silakan tambahkan data siswa terlebih dahulu.
                 </div>
             @endif
         </div>
@@ -245,7 +276,14 @@
                         @else
                             <span class="badge badge-unpaid"><i class="fas fa-times"></i> BELUM BAYAR</span>
                             <p style="font-size:0.8rem; color:transparent; margin:0 0 10px;">-</p>
-                            <button class="action-btn"><i class="fas fa-cash-register"></i> Bayar Sekarang</button>
+                            <form action="{{ route('admin.spp.store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="student_id" value="{{ $selectedStudent->id }}">
+                                <input type="hidden" name="month" value="{{ $num }}">
+                                <input type="hidden" name="year" value="{{ date('Y') }}">
+                                <input type="hidden" name="amount" value="{{ $selectedStudent->spp_amount }}">
+                                <button type="submit" class="action-btn" onclick="return confirm('Proses pembayaran SPP bulan {{ $name }} sejumlah Rp {{ number_format($selectedStudent->spp_amount, 0, ',', '.') }}?')"><i class="fas fa-cash-register"></i> Bayar Sekarang</button>
+                            </form>
                         @endif
                     </div>
                 @endforeach
@@ -253,5 +291,51 @@
         </div>
         @endif
     </div>
+
+    <!-- Modal Form Tambah Siswa -->
+    <div class="modal-overlay" id="studentModal">
+        <div class="modal">
+            <h2 style="margin-top:0;">Tambah Data Siswa Baru</h2>
+            <form action="{{ route('admin.spp.student.store') }}" method="POST">
+                @csrf
+                <div class="form-group">
+                    <label>Nomor Induk Siswa (NIS)</label>
+                    <input type="text" name="nis" placeholder="Contoh: 102938" required>
+                </div>
+                <div class="form-group">
+                    <label>Nama Lengkap Siswa</label>
+                    <input type="text" name="name" placeholder="Nama Lengkap" required>
+                </div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                    <div class="form-group">
+                        <label>Kelas</label>
+                        <input type="text" name="class" placeholder="Contoh: X" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Jurusan</label>
+                        <input type="text" name="major" placeholder="Contoh: RPL" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Tagihan SPP per Bulan (Rp)</label>
+                    <input type="number" name="spp_amount" value="150000" min="0" required>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn" style="background:#eee; color:#333;" onclick="closeModal()">Batal</button>
+                    <button type="submit" class="btn" style="background:var(--dark);"><i class="fas fa-save"></i> Simpan Siswa</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openModal() {
+            document.getElementById('studentModal').style.display = 'flex';
+        }
+        function closeModal() {
+            document.getElementById('studentModal').style.display = 'none';
+        }
+    </script>
 </body>
 </html>

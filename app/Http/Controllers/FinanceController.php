@@ -61,6 +61,43 @@ class FinanceController extends Controller
         return view('admin.finance.spp', compact('students', 'selectedStudent', 'payments'));
     }
 
+    public function storeStudent(Request $request)
+    {
+        $request->validate([
+            'nis' => 'required|string|unique:students,nis',
+            'name' => 'required|string|max:255',
+            'class' => 'required|string|max:50',
+            'major' => 'required|string|max:100',
+            'spp_amount' => 'required|numeric|min:0',
+        ]);
+
+        Student::create($request->all());
+
+        return redirect()->route('admin.spp.index', ['nis' => $request->nis])->with('success', 'Data siswa berhasil ditambahkan!');
+    }
+
+    public function storeSpp(Request $request)
+    {
+        $request->validate([
+            'student_id' => 'required|exists:students,id',
+            'month' => 'required|integer|min:1|max:12',
+            'year' => 'required|integer',
+            'amount' => 'required|numeric',
+        ]);
+
+        SppPayment::create([
+            'student_id' => $request->student_id,
+            'month' => $request->month,
+            'year' => $request->year,
+            'amount' => $request->amount,
+            'payment_date' => now(),
+            'status' => 'paid',
+            'user_id' => null, // auth()->id() later
+        ]);
+
+        return redirect()->back()->with('success', 'Pembayaran SPP berhasil dicatat!');
+    }
+
     public function publicCekSpp(Request $request)
     {
         $student = null;
