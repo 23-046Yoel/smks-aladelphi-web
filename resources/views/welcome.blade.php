@@ -46,19 +46,7 @@
                     </div>
                 </li>
                 <li><a href="#">Jurusan</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropbtn">Sistem & Fitur <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
-                    <div class="dropdown-content">
-                        <a href="{{ route('sistem.ppdb') }}"><i class="fas fa-user-plus"></i> PPDB Online</a>
-                        <a href="{{ route('sistem.akademik') }}"><i class="fas fa-book-reader"></i> Akademik & E-Rapor</a>
-                        <a href="#"><i class="fas fa-trophy"></i> Jurnal & Prestasi</a>
-                        <a href="{{ route('sistem.keuangan') }}"><i class="fas fa-wallet"></i> Sistem Keuangan</a>
-                        <a href="{{ route('kepegawaian.index') }}"><i class="fas fa-users-cog"></i> SDM & HR</a>
-                        <a href="{{ route('inventaris.index') }}"><i class="fas fa-boxes"></i> Inventaris & Gudang</a>
-                        <a href="#"><i class="fab fa-whatsapp"></i> WA Gateway</a>
-                        <a href="#"><i class="fas fa-mobile-alt"></i> Portal Ortu/Siswa</a>
-                    </div>
-                </li>
+                <li><a href="{{ route('public.cek-spp') }}">Cek SPP</a></li>
                 <li><a href="{{ route('spmb.index') }}">SPMB ONLINE SMKS ALADELPHI</a></li>
                 <li><a href="#">Kontak</a></li>
             </ul>

@@ -49,6 +49,9 @@ Route::prefix('sistem')->group(function () {
     Route::get('/inventaris', [App\Http\Controllers\SystemController::class, 'inventaris'])->name('sistem.inventaris');
 });
 
+// Cek SPP Publik
+Route::get('/cek-spp', [App\Http\Controllers\FinanceController::class, 'publicCekSpp'])->name('public.cek-spp');
+
 // Public Post API & Details
 Route::get('/api/posts', [App\Http\Controllers\PostController::class, 'getByCategory']);
 Route::get('/berita/{post}', [App\Http\Controllers\PostController::class, 'show'])->name('posts.show');
