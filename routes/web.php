@@ -61,8 +61,9 @@ Route::get('/daftar', [App\Http\Controllers\SystemController::class, 'registrati
 
 // Admin Management Routes
 Route::prefix('admin')->group(function () {
-    // Keuangan (Finance)
+    // Keuangan & SPP
     Route::get('/finance', [App\Http\Controllers\FinanceController::class, 'adminIndex'])->name('admin.finance.index');
+    Route::get('/spp', [App\Http\Controllers\FinanceController::class, 'adminSppIndex'])->name('admin.spp.index');
     // Posts
     Route::get('/posts', [App\Http\Controllers\PostController::class, 'adminIndex'])->name('admin.posts.index');
     Route::get('/posts/create', [App\Http\Controllers\PostController::class, 'create'])->name('admin.posts.create');

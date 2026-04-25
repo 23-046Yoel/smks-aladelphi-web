@@ -20,6 +20,27 @@ class FinanceController extends Controller
         return view('admin.finance.index', compact('transactions', 'totalIncome', 'totalExpense', 'balance'));
     }
 
+    public function adminSppIndex(Request $request)
+    {
+        $students = Student::all();
+        $selectedStudent = null;
+        $payments = [];
+
+        if ($request->has('nis')) {
+            $selectedStudent = Student::where('nis', $request->nis)->first();
+            if ($selectedStudent) {
+                $currentYear = date('Y');
+                $payments = SppPayment::where('student_id', $selectedStudent->id)
+                                      ->where('year', $currentYear)
+                                      ->orderBy('month', 'asc')
+                                      ->get()
+                                      ->keyBy('month');
+            }
+        }
+
+        return view('admin.finance.spp', compact('students', 'selectedStudent', 'payments'));
+    }
+
     public function publicCekSpp(Request $request)
     {
         $student = null;

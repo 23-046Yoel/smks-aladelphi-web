@@ -183,7 +183,8 @@
                 <li><a href="{{ route('admin.registrations.index') }}"><i class="fas fa-user-plus"></i> Pendaftar SPMB</a></li>
                 <li><a href="#"><i class="fas fa-users"></i> Data Siswa</a></li>
                 <li><a href="{{ route('admin.employees.index') }}"><i class="fas fa-chalkboard-teacher"></i> Kepegawaian & HR</a></li>
-                <li><a href="{{ route('admin.finance.index') }}" class="active"><i class="fas fa-wallet"></i> Keuangan</a></li>
+                <li><a href="{{ route('admin.finance.index') }}" class="active"><i class="fas fa-wallet"></i> Kas Keuangan</a></li>
+                <li><a href="{{ route('admin.spp.index') }}"><i class="fas fa-file-invoice-dollar"></i> Manajemen SPP</a></li>
                 <li><a href="{{ route('admin.inventory.index') }}"><i class="fas fa-boxes"></i> Inventaris & Gudang</a></li>
                 <li><a href="#"><i class="fas fa-cog"></i> Pengaturan</a></li>
                 <li style="margin-top: 50px;"><a href="{{ url('/') }}"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>

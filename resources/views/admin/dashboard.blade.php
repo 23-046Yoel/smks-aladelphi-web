@@ -156,7 +156,8 @@
                 <li><a href="{{ route('admin.registrations.index') }}"><i class="fas fa-user-plus"></i> Pendaftar SPMB</a></li>
                 <li><a href="#"><i class="fas fa-users"></i> Data Siswa</a></li>
                 <li><a href="{{ route('admin.employees.index') }}"><i class="fas fa-chalkboard-teacher"></i> Kepegawaian & HR</a></li>
-                <li><a href="{{ route('admin.finance.index') }}"><i class="fas fa-wallet"></i> Keuangan</a></li>
+                <li><a href="{{ route('admin.finance.index') }}"><i class="fas fa-wallet"></i> Kas Keuangan</a></li>
+                <li><a href="{{ route('admin.spp.index') }}"><i class="fas fa-file-invoice-dollar"></i> Manajemen SPP</a></li>
                 <li><a href="{{ route('admin.inventory.index') }}"><i class="fas fa-boxes"></i> Inventaris & Gudang</a></li>
                 <li><a href="#"><i class="fas fa-cog"></i> Pengaturan</a></li>
                 <li style="margin-top: 50px;"><a href="{{ url('/') }}"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
@@ -170,8 +171,14 @@
                 <p style="color: #888; margin: 5px 0 0;">Selamat datang kembali, Administrator</p>
             </div>
             <div style="background: white; padding: 10px 20px; border-radius: 50px; box-shadow: 0 5px 15px rgba(0,0,0,0.02);">
-                <i class="far fa-calendar-alt"></i> 22 April 2026
+                <i class="far fa-calendar-alt"></i> {{ date('d F Y') }}
             </div>
+        </div>
+
+        <div style="display: flex; gap: 15px; margin-bottom: 30px;">
+            <a href="{{ route('admin.finance.index') }}" style="background: var(--dark); color: white; padding: 12px 25px; border-radius: 12px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 10px; transition: 0.3s;"><i class="fas fa-wallet"></i> Buka Buku Kas</a>
+            <a href="{{ route('admin.spp.index') }}" style="background: var(--red); color: white; padding: 12px 25px; border-radius: 12px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 10px; transition: 0.3s;"><i class="fas fa-file-invoice-dollar"></i> Kelola Pembayaran SPP</a>
+            <a href="{{ route('admin.registrations.index') }}" style="background: white; color: var(--dark); border: 2px solid #eee; padding: 12px 25px; border-radius: 12px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 10px; transition: 0.3s;"><i class="fas fa-user-plus"></i> Cek Pendaftar Baru</a>
         </div>
 
         <div class="stats-grid">
