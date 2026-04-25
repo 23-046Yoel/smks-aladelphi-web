@@ -7,155 +7,271 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <style>
-        .page-header {
-            background: linear-gradient(135deg, #e30613 0%, #8a0000 100%);
-            padding: 80px 20px;
+        body {
+            background-color: #f8f9fc;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+        }
+        
+        /* Premium Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            padding: 100px 20px 140px;
             text-align: center;
             color: white;
-            margin-bottom: 50px;
+            position: relative;
+            overflow: hidden;
         }
-        .page-header h1 {
-            font-size: 2.5rem;
-            margin: 0 0 10px;
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(227, 6, 19, 0.15) 0%, transparent 70%);
         }
-        .search-box {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+        .hero-section h1 {
+            font-size: 3rem;
+            margin: 0 0 15px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            position: relative;
+            z-index: 2;
+        }
+        .hero-section p {
+            font-size: 1.1rem;
+            color: #cbd5e1;
             max-width: 600px;
-            margin: -80px auto 40px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            line-height: 1.6;
+        }
+
+        /* Sleek Search Box */
+        .search-container {
+            max-width: 700px;
+            margin: -80px auto 60px;
             position: relative;
             z-index: 10;
+            padding: 0 20px;
+        }
+        .search-box {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05);
             text-align: center;
         }
+        .search-box h2 {
+            margin: 0 0 25px;
+            color: #1e293b;
+            font-weight: 800;
+            font-size: 1.5rem;
+        }
+        .search-input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        @media (max-width: 600px) {
+            .search-input-group { flex-direction: column; }
+        }
         .search-box input {
-            width: 100%;
-            padding: 15px 20px;
+            flex: 1;
+            padding: 16px 25px;
             font-size: 1.1rem;
-            border: 2px solid #eee;
-            border-radius: 12px;
-            margin-bottom: 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
             box-sizing: border-box;
             font-family: 'Outfit', sans-serif;
-            text-align: center;
+            transition: 0.3s;
+            background: #f8fafc;
+            color: #334155;
         }
         .search-box input:focus {
             outline: none;
             border-color: #e30613;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(227, 6, 19, 0.1);
         }
         .search-box button {
             background: #e30613;
             color: white;
             border: none;
-            padding: 15px 40px;
+            padding: 16px 35px;
             font-size: 1.1rem;
-            font-weight: 800;
-            border-radius: 12px;
+            font-weight: 700;
+            border-radius: 16px;
             cursor: pointer;
             transition: 0.3s;
-            width: 100%;
+            box-shadow: 0 10px 15px -3px rgba(227, 6, 19, 0.3);
+            white-space: nowrap;
         }
         .search-box button:hover {
-            background: #a00;
+            background: #cc0000;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 20px -3px rgba(227, 6, 19, 0.4);
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 0 20px 80px;
         }
         
         .result-container {
-            max-width: 800px;
-            margin: 0 auto 80px;
+            max-width: 900px;
+            margin: 0 auto;
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px -15px rgba(0,0,0,0.05);
             padding: 40px;
-            border: 1px solid #eee;
+            border: 1px solid #f1f5f9;
         }
         .student-info {
             display: flex;
             align-items: center;
-            gap: 20px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #f5f5f5;
-            margin-bottom: 30px;
+            gap: 25px;
+            padding-bottom: 25px;
+            border-bottom: 2px solid #f1f5f9;
+            margin-bottom: 35px;
         }
         .student-info .avatar {
-            width: 70px;
-            height: 70px;
-            background: #f8f9fa;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
-            color: #ccc;
+            font-size: 2.5rem;
+            color: #94a3b8;
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.5);
         }
         .student-info h3 {
-            margin: 0 0 5px;
-            font-size: 1.5rem;
-            color: #1a1a1a;
+            margin: 0 0 8px;
+            font-size: 1.8rem;
+            color: #0f172a;
+            font-weight: 800;
         }
         .student-info p {
             margin: 0;
-            color: #777;
+            color: #64748b;
             font-weight: 600;
+            font-size: 1.05rem;
+        }
+        .student-info p span {
+            color: #e30613;
+            font-weight: 800;
         }
         
         .months-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
         }
+        @media (max-width: 900px) {
+            .months-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .months-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
         .month-card {
-            border: 2px solid #eee;
-            border-radius: 12px;
-            padding: 20px;
+            border: 2px solid #f1f5f9;
+            border-radius: 16px;
+            padding: 25px 15px;
             text-align: center;
             transition: 0.3s;
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .month-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
         }
         .month-card.paid {
-            border-color: #28a745;
-            background: rgba(40, 167, 69, 0.05);
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+        .month-card.paid::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: #10b981;
         }
         .month-card.unpaid {
-            border-color: #e30613;
-            background: rgba(227, 6, 19, 0.05);
+            border-color: #f1f5f9;
+            background: #ffffff;
         }
+        .month-card.unpaid::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: #e30613;
+        }
+        
         .month-card h4 {
-            margin: 0 0 10px;
-            font-size: 1.1rem;
+            margin: 0 0 15px;
+            font-size: 1.15rem;
+            color: #334155;
+            font-weight: 700;
         }
         .month-badge {
             display: inline-block;
-            padding: 5px 12px;
+            padding: 6px 14px;
             border-radius: 50px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 800;
+            letter-spacing: 0.5px;
         }
-        .badge-paid {
-            background: #28a745;
-            color: white;
-        }
-        .badge-unpaid {
-            background: #e30613;
-            color: white;
-        }
+        .badge-paid { background: #10b981; color: white; }
+        .badge-unpaid { background: #fee2e2; color: #ef4444; }
+        
         .date-paid {
             display: block;
-            margin-top: 10px;
-            font-size: 0.75rem;
-            color: #777;
+            margin-top: 15px;
+            font-size: 0.8rem;
+            color: #64748b;
+            font-weight: 600;
         }
         
         .alert-error {
-            background: #ffe6e6;
-            color: #e30613;
+            background: #fef2f2;
+            color: #b91c1c;
             padding: 20px;
-            border-radius: 12px;
+            border-radius: 16px;
             text-align: center;
             font-weight: 600;
             max-width: 600px;
             margin: 0 auto 50px;
-            border: 1px solid #ffcccc;
+            border: 1px solid #fecaca;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .info-box {
+            margin-top: 50px; 
+            padding: 30px; 
+            background: #f8fafc; 
+            border-radius: 20px; 
+            border: 1px solid #e2e8f0;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        .info-icon {
+            width: 50px; height: 50px;
+            background: white; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; color: #e8b31a;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            flex-shrink: 0;
+        }
+        
+        /* Modern Footer */
+        .modern-footer {
+            background: #0f172a;
+            color: #94a3b8;
+            padding: 30px 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            border-top: 1px solid #1e293b;
         }
     </style>
 </head>
@@ -200,79 +316,91 @@
         <a href="{{ url('/login') }}" class="btn-primary">LOGIN</a>
     </header>
 
-    <div class="page-header">
+    <div class="hero-section">
         <h1>Cek Status SPP Siswa</h1>
-        <p>Pantau pembayaran administrasi sekolah putra/putri Anda secara transparan.</p>
+        <p>Pantau tagihan dan riwayat pembayaran administrasi sekolah putra/putri Anda secara transparan dan terpadu.</p>
     </div>
 
-    <div class="search-box">
-        <h2 style="margin-top:0;">Masukkan NIS Anda</h2>
-        <form action="{{ route('public.cek-spp') }}" method="GET">
-            <input type="text" name="nis" placeholder="Contoh: 10293847" value="{{ request('nis') }}" required>
-            <button type="submit"><i class="fas fa-search"></i> Cari Data Siswa</button>
-        </form>
-    </div>
+    <div class="main-content">
+        <div class="search-container">
+            <div class="search-box">
+                <h2>Masukkan Nomor Induk Siswa</h2>
+                <form action="{{ route('public.cek-spp') }}" method="GET">
+                    <div class="search-input-group">
+                        <input type="text" name="nis" placeholder="Contoh: 10293847" value="{{ request('nis') }}" required>
+                        <button type="submit"><i class="fas fa-search"></i> Cek Data</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
     @if(request()->has('nis') && !$student)
         <div class="alert-error">
-            <i class="fas fa-exclamation-triangle"></i> Maaf, data siswa dengan NIS "{{ request('nis') }}" tidak ditemukan.
+            <i class="fas fa-exclamation-triangle" style="font-size: 1.5rem; display: block; margin-bottom: 10px;"></i> 
+            Maaf, data siswa dengan NIS <strong>"{{ request('nis') }}"</strong> tidak ditemukan dalam sistem.
         </div>
     @endif
 
     @if($student)
-    <div class="result-container">
-        <div class="student-info">
-            <div class="avatar"><i class="fas fa-user"></i></div>
-            <div>
-                <h3>{{ $student->name }}</h3>
-                <p>NIS: {{ $student->nis }} | Kelas: {{ $student->class }} | Jurusan: {{ $student->major }}</p>
+        <div class="result-container">
+            <div class="student-info">
+                <div class="avatar"><i class="fas fa-user-graduate"></i></div>
+                <div>
+                    <h3>{{ $student->name }}</h3>
+                    <p>NIS: <span>{{ $student->nis }}</span> &nbsp;|&nbsp; Kelas: <span>{{ $student->class }}</span> &nbsp;|&nbsp; Jurusan: <span>{{ $student->major }}</span></p>
+                </div>
+            </div>
+            
+            <h3 style="margin-bottom: 25px; color: #1e293b; font-size: 1.4rem; display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-calendar-check" style="color: #10b981;"></i> Status Pembayaran Tahun {{ date('Y') }}
+            </h3>
+            
+            <div class="months-grid">
+                @php
+                    $months = [
+                        1 => 'Januari', 2 => 'Februari', 3 => 'Maret',
+                        4 => 'April', 5 => 'Mei', 6 => 'Juni',
+                        7 => 'Juli', 8 => 'Agustus', 9 => 'September',
+                        10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+                    ];
+                @endphp
+                
+                @foreach($months as $num => $name)
+                    @php
+                        $isPaid = isset($payments[$num]) && $payments[$num]->status == 'paid';
+                        $payment = $payments[$num] ?? null;
+                    @endphp
+                    <div class="month-card {{ $isPaid ? 'paid' : 'unpaid' }}">
+                        <h4>{{ $name }}</h4>
+                        @if($isPaid)
+                            <span class="month-badge badge-paid"><i class="fas fa-check"></i> LUNAS</span>
+                            <span class="date-paid">Tgl: {{ \Carbon\Carbon::parse($payment->payment_date)->format('d/m/Y') }}</span>
+                        @else
+                            <span class="month-badge badge-unpaid"><i class="fas fa-clock"></i> BELUM</span>
+                            <span class="date-paid">Rp {{ number_format($student->spp_amount, 0, ',', '.') }}</span>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+            
+            <div class="info-box">
+                <div class="info-icon"><i class="fas fa-wallet"></i></div>
+                <div>
+                    <h4 style="margin: 0 0 8px; color: #0f172a; font-size: 1.1rem; font-weight: 800;">Informasi Pembayaran Resmi</h4>
+                    <p style="margin: 0; font-size: 0.95rem; color: #475569; line-height: 1.7;">
+                        Pembayaran SPP yang sah hanya dapat dilakukan secara langsung di <strong>Ruang Tata Usaha (Bendahara Sekolah)</strong> atau melalui transfer resmi ke:<br>
+                        <strong style="color: #0f172a; background: #e2e8f0; padding: 3px 8px; border-radius: 6px; display: inline-block; margin-top: 5px;">Bank Mandiri: 123-456-789-0 a.n SMKS Aladelphi</strong><br>
+                        <span style="font-size: 0.85rem; color: #e30613; margin-top: 5px; display: block;">*Harap berhati-hati terhadap penipuan yang mengatasnamakan sekolah.</span>
+                    </p>
+                </div>
             </div>
         </div>
-        
-        <h3 style="margin-bottom: 20px;"><i class="fas fa-calendar-check"></i> Status Pembayaran Tahun {{ date('Y') }}</h3>
-        
-        <div class="months-grid">
-            @php
-                $months = [
-                    1 => 'Januari', 2 => 'Februari', 3 => 'Maret',
-                    4 => 'April', 5 => 'Mei', 6 => 'Juni',
-                    7 => 'Juli', 8 => 'Agustus', 9 => 'September',
-                    10 => 'Oktober', 11 => 'November', 12 => 'Desember'
-                ];
-            @endphp
-            
-            @foreach($months as $num => $name)
-                @php
-                    $isPaid = isset($payments[$num]) && $payments[$num]->status == 'paid';
-                    $payment = $payments[$num] ?? null;
-                @endphp
-                <div class="month-card {{ $isPaid ? 'paid' : 'unpaid' }}">
-                    <h4>{{ $name }}</h4>
-                    @if($isPaid)
-                        <span class="month-badge badge-paid"><i class="fas fa-check"></i> LUNAS</span>
-                        <span class="date-paid">Dibayar: {{ \Carbon\Carbon::parse($payment->payment_date)->format('d/m/Y') }}</span>
-                    @else
-                        <span class="month-badge badge-unpaid"><i class="fas fa-times"></i> BELUM</span>
-                        <span class="date-paid">Tagihan: Rp {{ number_format($student->spp_amount, 0, ',', '.') }}</span>
-                    @endif
-                </div>
-            @endforeach
-        </div>
-        
-        <div style="margin-top: 40px; padding: 20px; background: #fff8e1; border-radius: 12px; border-left: 4px solid #ffc107;">
-            <h4 style="margin: 0 0 10px; color: #b8860b;"><i class="fas fa-info-circle"></i> Informasi Pembayaran</h4>
-            <p style="margin: 0; font-size: 0.9rem; color: #666; line-height: 1.6;">
-                Pembayaran SPP dapat dilakukan secara langsung ke ruang Tata Usaha (Bendahara) atau melalui transfer ke Rekening Resmi SMKS Aladelphi:<br>
-                <strong>Bank Mandiri: 123-456-789-0 a.n SMKS Aladelphi</strong><br>
-                Harap segera konfirmasi ke WhatsApp Bendahara setelah melakukan transfer.
-            </p>
-        </div>
-    </div>
     @endif
+    </div>
 
     <!-- Footer -->
-    <footer style="background: #e30613; color: white; padding: 60px 0; text-align: center;">
-        <p>&copy; 2026 SMK SWASTA ALA DELPHI - TIGA BINANGA. All rights reserved.</p>
+    <footer class="modern-footer">
+        <p style="margin:0;">&copy; {{ date('Y') }} SMK SWASTA ALA DELPHI - TIGA BINANGA. Dikelola oleh Tim IT.</p>
     </footer>
 </body>
 </html>
