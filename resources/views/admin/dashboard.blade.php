@@ -158,6 +158,7 @@
                 <li><a href="{{ route('admin.employees.index') }}"><i class="fas fa-chalkboard-teacher"></i> Kepegawaian & HR</a></li>
                 <li><a href="{{ route('admin.finance.index') }}"><i class="fas fa-wallet"></i> Kas Keuangan</a></li>
                 <li><a href="{{ route('admin.spp.index') }}"><i class="fas fa-file-invoice-dollar"></i> Manajemen SPP</a></li>
+                <li><a href="{{ route('admin.attendance.index') }}"><i class="fas fa-qrcode"></i> Sistem Absensi</a></li>
                 <li><a href="{{ route('admin.inventory.index') }}"><i class="fas fa-boxes"></i> Inventaris & Gudang</a></li>
                 <li><a href="#"><i class="fas fa-cog"></i> Pengaturan</a></li>
                 <li style="margin-top: 50px;"><a href="{{ url('/') }}"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>

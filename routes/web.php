@@ -92,7 +92,15 @@ Route::prefix('admin')->group(function () {
     Route::get('/inventory/{inventory}/edit', [App\Http\Controllers\InventoryController::class, 'edit'])->name('admin.inventory.edit');
     Route::put('/inventory/{inventory}', [App\Http\Controllers\InventoryController::class, 'update'])->name('admin.inventory.update');
     Route::delete('/inventory/{inventory}', [App\Http\Controllers\InventoryController::class, 'destroy'])->name('admin.inventory.destroy');
+
+    // Attendance
+    Route::get('/attendance', [App\Http\Controllers\AttendanceController::class, 'index'])->name('admin.attendance.index');
+    Route::get('/attendance/{subject_id}/qr', [App\Http\Controllers\AttendanceController::class, 'showQr'])->name('admin.attendance.qr');
 });
 
 // Public Inventory Route
 Route::get('/inventaris', [App\Http\Controllers\InventoryController::class, 'index'])->name('inventaris.index');
+
+// Public Attendance Scan Routes
+Route::get('/absen/scan/{token}', [App\Http\Controllers\AttendanceController::class, 'scanForm'])->name('attendance.scan');
+Route::post('/absen/scan/{token}', [App\Http\Controllers\AttendanceController::class, 'submitScan'])->name('attendance.submit');
