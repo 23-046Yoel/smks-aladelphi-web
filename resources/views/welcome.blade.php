@@ -57,16 +57,19 @@
     <!-- Hero Slider -->
     <div class="hero-slider">
         <div class="slides" id="slider">
-            @for ($i = 0; $i < 5; $i++)
+            @php
+                $sliderImages = ['1.jpeg', '2.jpeg', '3.jpeg', '4.jpeg', '5.jpeg', '6.jpeg'];
+            @endphp
+            @foreach ($sliderImages as $index => $img)
             <div class="slide">
-                <img src="{{ asset('images/hero.png') }}" alt="School Life {{ $i + 1 }}">
+                <img src="{{ asset('images/' . $img) }}" alt="School Life {{ $index + 1 }}">
                 <div class="slide-overlay">
                     <h2>SPMB TA 2026 / 2027</h2>
                     <p>Selamat datang di Pusat Keunggulan SMKS Ala Delphi. Bergabunglah bersama kami untuk masa depan yang lebih cerah.</p>
-                    <a href="#" class="btn-primary">PELAJARI LEBIH JAUH</a>
+                    <a href="{{ route('spmb.index') }}" class="btn-primary">PELAJARI LEBIH JAUH</a>
                 </div>
             </div>
-            @endfor
+            @endforeach
         </div>
         <button class="slider-btn prev-btn" id="prev">❮</button>
         <button class="slider-btn next-btn" id="next">❯</button>
@@ -264,7 +267,7 @@
     <!-- Feature Grid Section -->
     <section class="feature-grid-section">
         <div class="feature-container">
-            <div class="feature-item tall" style="background-image: url('{{ asset('images/hero.png') }}');">
+            <div class="feature-item tall" style="background-image: url('{{ asset('images/1.jpeg') }}');">
                 <div class="feature-overlay">
                     <h3>REKOR MURI SBMPTN 2026</h3>
                 </div>
@@ -274,22 +277,22 @@
                     <h3>Sekolah Kejuruan Terbaik di Indonesia</h3>
                 </div>
             </div>
-            <div class="feature-item wide" style="background-image: url('{{ asset('images/hero.png') }}');">
+            <div class="feature-item wide" style="background-image: url('{{ asset('images/2.jpeg') }}');">
                 <div class="feature-overlay">
                     <h3>Kurikulum International Baccalaureate IB WORLD SCHOOL</h3>
                 </div>
             </div>
-            <div class="feature-item small" style="background-image: url('{{ asset('images/hero.png') }}');">
+            <div class="feature-item small" style="background-image: url('{{ asset('images/3.jpeg') }}');">
                 <div class="feature-overlay">
                     <h3>FSS, BILLIARD, LAP. OLAHRAGA</h3>
                 </div>
             </div>
-            <div class="feature-item medium" style="background-image: url('{{ asset('images/hero.png') }}');">
+            <div class="feature-item medium" style="background-image: url('{{ asset('images/4.jpeg') }}');">
                 <div class="feature-overlay">
                     <h3>LABORATORIUM BAHASA - KOMPUTER - SCIENCE</h3>
                 </div>
             </div>
-            <div class="feature-item small" style="background-image: url('{{ asset('images/hero.png') }}');">
+            <div class="feature-item small" style="background-image: url('{{ asset('images/5.jpeg') }}');">
                 <div class="feature-overlay">
                     <h3>PERPUSTAKAAN</h3>
                 </div>
@@ -420,8 +423,8 @@
 
         function showSlide(n) {
             slides[index].classList.remove('active');
-            if (n >= 5) index = 0;
-            else if (n < 0) index = 4;
+            if (n >= 6) index = 0; // Updated to 6 slides
+            else if (n < 0) index = 5;
             else index = n;
             
             slider.style.transform = `translateX(${-index * 20}%)`;
