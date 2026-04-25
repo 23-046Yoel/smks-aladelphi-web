@@ -202,13 +202,13 @@ nav ul li a:hover::after, .dropdown:hover .dropbtn::after {
 
 .slides {
     display: flex;
-    width: 500%;
+    width: 600%;
     height: 100%;
     transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
 .slide {
-    width: 20%;
+    width: 16.666667%;
     height: 100%;
     position: relative;
 }

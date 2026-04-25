@@ -427,7 +427,7 @@
             else if (n < 0) index = 5;
             else index = n;
             
-            slider.style.transform = `translateX(${-index * 20}%)`;
+            slider.style.transform = `translateX(${-index * 16.666667}%)`;
             slides[index].classList.add('active');
         }
 
