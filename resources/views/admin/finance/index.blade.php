@@ -168,6 +168,34 @@
         .badge-income { background: rgba(40, 167, 69, 0.1); color: var(--green); }
         .badge-expense { background: rgba(227, 6, 19, 0.1); color: var(--red); }
         .text-right { text-align: right; }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+        }
+        .modal h2 { margin-top: 0; margin-bottom: 20px; }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 8px; color: #555; font-weight: 600; }
+        .form-group input { 
+            width: 100%; padding: 12px 15px; 
+            border: 2px solid #eee; border-radius: 10px; 
+            font-family: 'Outfit'; font-size: 1rem; box-sizing: border-box;
+        }
+        .form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 30px; }
     </style>
 </head>
 <body>
@@ -230,8 +258,8 @@
             <div class="panel-header">
                 <h3>Buku Kas Umum</h3>
                 <div style="display: flex; gap: 10px;">
-                    <button class="btn btn-green"><i class="fas fa-plus"></i> Pemasukan</button>
-                    <button class="btn btn-red"><i class="fas fa-minus"></i> Pengeluaran</button>
+                    <button class="btn btn-green" onclick="openModal('income')"><i class="fas fa-plus"></i> Pemasukan</button>
+                    <button class="btn btn-red" onclick="openModal('expense')"><i class="fas fa-minus"></i> Pengeluaran</button>
                 </div>
             </div>
             <table>
@@ -275,5 +303,55 @@
             </table>
         </div>
     </div>
+
+    <!-- Modal Form -->
+    <div class="modal-overlay" id="transactionModal">
+        <div class="modal">
+            <h2 id="modalTitle">Tambah Transaksi</h2>
+            <form action="{{ route('admin.finance.store') }}" method="POST">
+                @csrf
+                <input type="hidden" name="type" id="trxType" value="">
+                
+                <div class="form-group">
+                    <label>Tanggal Transaksi</label>
+                    <input type="date" name="transaction_date" value="{{ date('Y-m-d') }}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Nominal (Rp)</label>
+                    <input type="number" name="amount" placeholder="Contoh: 150000" min="1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Keterangan</label>
+                    <input type="text" name="description" placeholder="Contoh: Beli alat tulis / Dana BOS" required>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn" style="background:#eee; color:#333;" onclick="closeModal()">Batal</button>
+                    <button type="submit" class="btn btn-green" id="btnSubmit">Simpan Data</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openModal(type) {
+            document.getElementById('transactionModal').style.display = 'flex';
+            document.getElementById('trxType').value = type;
+            
+            if (type === 'income') {
+                document.getElementById('modalTitle').innerText = 'Catat Pemasukan Kas';
+                document.getElementById('btnSubmit').className = 'btn btn-green';
+            } else {
+                document.getElementById('modalTitle').innerText = 'Catat Pengeluaran Kas';
+                document.getElementById('btnSubmit').className = 'btn btn-red';
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('transactionModal').style.display = 'none';
+        }
+    </script>
 </body>
 </html>

@@ -20,6 +20,26 @@ class FinanceController extends Controller
         return view('admin.finance.index', compact('transactions', 'totalIncome', 'totalExpense', 'balance'));
     }
 
+    public function store(Request $request)
+    {
+        $request->validate([
+            'type' => 'required|in:income,expense',
+            'amount' => 'required|numeric|min:1',
+            'description' => 'required|string|max:255',
+            'transaction_date' => 'required|date',
+        ]);
+
+        FinanceTransaction::create([
+            'type' => $request->type,
+            'amount' => $request->amount,
+            'description' => $request->description,
+            'transaction_date' => $request->transaction_date,
+            'user_id' => null, // If using Auth: auth()->id()
+        ]);
+
+        return redirect()->back()->with('success', 'Transaksi berhasil disimpan!');
+    }
+
     public function adminSppIndex(Request $request)
     {
         $students = Student::all();
