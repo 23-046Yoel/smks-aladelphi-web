@@ -106,9 +106,10 @@ class AttendanceController extends Controller
         $subject = Subject::findOrFail($subject_id);
         $date = date('Y-m-d');
 
-        // URL-safe token: hex encoding (no slashes)
+        // URL-safe token using hex
         $token = bin2hex($subject_id . '|' . $meeting . '|' . $date);
-        $scanUrl = route('attendance.scan', ['token' => $token]);
+        // Use query parameter to avoid LiteSpeed URL truncation
+        $scanUrl = url('/absen/scan') . '?t=' . $token;
 
         return view('admin.attendance.qr', compact('subject', 'date', 'scanUrl', 'meeting'));
     }
@@ -116,14 +117,16 @@ class AttendanceController extends Controller
     // ==========================================
     // Halaman Scan Publik (HP Siswa)
     // ==========================================
-    public function scanForm($token)
+    public function scanForm(Request $request)
     {
         try {
+            $token = $request->query('t');
+            if (!$token) return redirect('/')->with('error', 'Token tidak ditemukan.');
             $decoded = hex2bin($token);
             $parts = explode('|', $decoded);
             $subject_id = $parts[0];
-            $meeting = $parts[1];
-            $date = $parts[2];
+            $meeting    = $parts[1];
+            $date       = $parts[2];
 
             $subject = Subject::findOrFail($subject_id);
 
@@ -135,23 +138,24 @@ class AttendanceController extends Controller
 
             return view('public.attendance-scan', compact('subject', 'date', 'token', 'meeting', 'students'));
         } catch (\Exception $e) {
-            return redirect('/')->with('error', 'Kode QR tidak valid.');
+            return redirect('/')->with('error', 'Kode QR tidak valid: ' . $e->getMessage());
         }
     }
 
     // ==========================================
     // Proses Absensi (Submit dari HP Siswa)
     // ==========================================
-    public function submitScan(Request $request, $token)
+    public function submitScan(Request $request)
     {
         $request->validate(['nis' => 'required|string']);
+        $token = $request->query('t');
 
         try {
             $decoded = hex2bin($token);
             $parts = explode('|', $decoded);
             $subject_id = $parts[0];
-            $meeting = $parts[1];
-            $date = $parts[2];
+            $meeting    = $parts[1];
+            $date       = $parts[2];
 
             $student = Student::where('nis', $request->nis)->first();
 

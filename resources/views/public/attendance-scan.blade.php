@@ -142,7 +142,7 @@
         </div>
         @endif
 
-        <form action="{{ route('attendance.submit', $token) }}" method="POST">
+        <form action="{{ route('attendance.submit') }}?t={{ $token }}" method="POST">
             @csrf
             <label for="nis">Nomor Induk Siswa (NIS)</label>
             <div class="input-group">

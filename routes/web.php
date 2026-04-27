@@ -101,6 +101,6 @@ Route::prefix('admin')->group(function () {
 // Public Inventory Route
 Route::get('/inventaris', [App\Http\Controllers\InventoryController::class, 'index'])->name('inventaris.index');
 
-// Public Attendance Scan Routes
-Route::get('/absen/scan/{token}', [App\Http\Controllers\AttendanceController::class, 'scanForm'])->name('attendance.scan');
-Route::post('/absen/scan/{token}', [App\Http\Controllers\AttendanceController::class, 'submitScan'])->name('attendance.submit');
+// Public Attendance Scan Routes (using query param ?t= to avoid LiteSpeed URL truncation)
+Route::get('/absen/scan', [App\Http\Controllers\AttendanceController::class, 'scanForm'])->name('attendance.scan');
+Route::post('/absen/scan', [App\Http\Controllers\AttendanceController::class, 'submitScan'])->name('attendance.submit');
