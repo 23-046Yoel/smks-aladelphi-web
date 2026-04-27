@@ -116,8 +116,9 @@ class AttendanceController extends Controller
 
         // URL-safe token using hex
         $token = bin2hex($subject_id . '|' . $meeting . '|' . $date);
-        // Use index.php fallback for servers with missing rewrite rules
-        $scanUrl = url('/index.php/pindai/absen') . '?t=' . $token;
+        
+        // Generate clean absolute URL using route helper
+        $scanUrl = route('attendance.scan', ['t' => $token]);
 
         return view('admin.attendance.qr', compact('subject', 'date', 'scanUrl', 'meeting'));
     }
