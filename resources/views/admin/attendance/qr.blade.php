@@ -78,8 +78,8 @@
     <h3>{{ $subject->teacher_name }}</h3>
     
     <div class="qr-code">
-        <!-- Generate QR Code using Google Chart API -->
-        <img src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl={{ urlencode($scanUrl) }}&choe=UTF-8" alt="QR Code Absensi">
+        <!-- Generate QR Code using QuickChart API (More reliable than Google Charts) -->
+        <img src="https://quickchart.io/qr?text={{ urlencode($scanUrl) }}&size=300" alt="QR Code Absensi">
     </div>
 
     <p>Silakan scan QR Code di atas menggunakan kamera HP Anda untuk melakukan absensi kehadiran.</p>
