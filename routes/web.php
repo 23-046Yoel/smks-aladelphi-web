@@ -93,7 +93,8 @@ Route::prefix('admin')->group(function () {
 
     // Attendance
     Route::get('/attendance', [App\Http\Controllers\AttendanceController::class, 'index'])->name('admin.attendance.index');
-    Route::get('/attendance/{subject_id}/qr', [App\Http\Controllers\AttendanceController::class, 'showQr'])->name('admin.attendance.qr');
+    Route::get('/attendance/{subject_id}/detail', [App\Http\Controllers\AttendanceController::class, 'detail'])->name('admin.attendance.detail');
+    Route::get('/attendance/{subject_id}/qr/{meeting}', [App\Http\Controllers\AttendanceController::class, 'showQr'])->name('admin.attendance.qr');
 });
 
 // Public Inventory Route

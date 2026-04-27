@@ -11,116 +11,177 @@ use Illuminate\Support\Str;
 
 class AttendanceController extends Controller
 {
-    public function index()
+    // ==========================================
+    // Seed default data jika masih kosong
+    // ==========================================
+    private function seedData()
     {
-        // Seed default subjects if empty
         if (Subject::count() == 0) {
-            Subject::insert([
-                ['name' => 'Matematika', 'code' => 'MTK-01', 'teacher_name' => 'Drs. Budi Santoso'],
-                ['name' => 'Bahasa Indonesia', 'code' => 'BIN-01', 'teacher_name' => 'Siti Aminah, M.Pd'],
-                ['name' => 'Bahasa Inggris', 'code' => 'ENG-01', 'teacher_name' => 'John Doe, MA'],
-                ['name' => 'Pendidikan Agama', 'code' => 'AGM-01', 'teacher_name' => 'H. Ahmad Fauzi'],
-                ['name' => 'Produktif Kejuruan', 'code' => 'PROD-01', 'teacher_name' => 'Ir. Bambang Wijaya'],
-                ['name' => 'Pendidikan Jasmani', 'code' => 'PJOK-01', 'teacher_name' => 'Anto Suherman, S.Pd'],
-            ]);
+            $subjects = [
+                // Kelas X RPL 1
+                ['name' => 'Pemrograman Dasar', 'code' => 'PD-XRPL1', 'teacher_name' => 'Ir. Bambang Wijaya, S.Kom', 'class_name' => 'X RPL 1', 'class_president' => 'Ahmad Fauzi'],
+                ['name' => 'Basis Data', 'code' => 'BD-XRPL1', 'teacher_name' => 'Siti Aminah, M.Pd', 'class_name' => 'X RPL 1', 'class_president' => 'Ahmad Fauzi'],
+                // Kelas X TKJ 1
+                ['name' => 'Jaringan Komputer', 'code' => 'JK-XTKJ1', 'teacher_name' => 'Drs. Budi Santoso', 'class_name' => 'X TKJ 1', 'class_president' => 'Rina Agustina'],
+                ['name' => 'Sistem Operasi', 'code' => 'SO-XTKJ1', 'teacher_name' => 'Hendra Gunawan, S.T', 'class_name' => 'X TKJ 1', 'class_president' => 'Rina Agustina'],
+                // Kelas XI RPL 1
+                ['name' => 'Pemrograman Web', 'code' => 'PW-XIRPL1', 'teacher_name' => 'Dewi Kusuma, M.Kom', 'class_name' => 'XI RPL 1', 'class_president' => 'Budi Hartono'],
+                ['name' => 'Pemrograman Mobile', 'code' => 'PM-XIRPL1', 'teacher_name' => 'Ir. Bambang Wijaya, S.Kom', 'class_name' => 'XI RPL 1', 'class_president' => 'Budi Hartono'],
+                // Kelas XII RPL 1
+                ['name' => 'Proyek Perangkat Lunak', 'code' => 'PPL-XIIRPL1', 'teacher_name' => 'Dewi Kusuma, M.Kom', 'class_name' => 'XII RPL 1', 'class_president' => 'Citra Dewi'],
+                // Mata pelajaran umum
+                ['name' => 'Matematika', 'code' => 'MTK-X', 'teacher_name' => 'Drs. Ahmad, M.Pd', 'class_name' => 'X RPL 1', 'class_president' => 'Ahmad Fauzi'],
+                ['name' => 'Bahasa Indonesia', 'code' => 'BIN-XI', 'teacher_name' => 'Ibu Sari, S.Pd', 'class_name' => 'XI RPL 1', 'class_president' => 'Budi Hartono'],
+                ['name' => 'Bahasa Inggris', 'code' => 'ENG-XII', 'teacher_name' => 'Mr. John, M.A', 'class_name' => 'XII RPL 1', 'class_president' => 'Citra Dewi'],
+            ];
+            Subject::insert(array_map(function($s) {
+                return array_merge($s, ['created_at' => now(), 'updated_at' => now()]);
+            }, $subjects));
         }
 
-        // Seed some students if empty so the system "really works"
         if (Student::count() == 0) {
-            $majors = ['RPL', 'TKJ', 'Multimedia', 'Akuntansi'];
-            $classes = ['X', 'XI', 'XII'];
-            
-            for ($i = 1; $i <= 50; $i++) {
+            $data = [
+                ['X RPL 1', 'RPL'], ['X RPL 1', 'RPL'], ['X RPL 1', 'RPL'], ['X RPL 1', 'RPL'], ['X RPL 1', 'RPL'],
+                ['X TKJ 1', 'TKJ'], ['X TKJ 1', 'TKJ'], ['X TKJ 1', 'TKJ'], ['X TKJ 1', 'TKJ'], ['X TKJ 1', 'TKJ'],
+                ['XI RPL 1', 'RPL'], ['XI RPL 1', 'RPL'], ['XI RPL 1', 'RPL'], ['XI RPL 1', 'RPL'], ['XI RPL 1', 'RPL'],
+                ['XII RPL 1', 'RPL'], ['XII RPL 1', 'RPL'], ['XII RPL 1', 'RPL'], ['XII RPL 1', 'RPL'], ['XII RPL 1', 'RPL'],
+            ];
+            $names = ['Ahmad Fauzi','Budi Santoso','Citra Dewi','Dina Rahayu','Eko Prasetyo',
+                      'Fani Putri','Gilang Ramadhan','Hana Safitri','Irfan Hakim','Joko Susilo',
+                      'Kartika Sari','Lina Marlina','Muhammad Rizki','Nadia Aulia','Omar Faruq',
+                      'Putri Anggraini','Qodri Ananda','Rina Agustina','Sandi Pratama','Tina Wulandari'];
+            foreach ($data as $i => $d) {
                 Student::create([
-                    'nis' => '2024' . str_pad($i, 4, '0', STR_PAD_LEFT),
-                    'name' => 'Siswa Contoh ' . $i,
-                    'class' => $classes[array_rand($classes)],
-                    'major' => $majors[array_rand($majors)],
+                    'nis' => '2024' . str_pad($i + 1, 4, '0', STR_PAD_LEFT),
+                    'name' => $names[$i] ?? 'Siswa ' . ($i + 1),
+                    'class' => $d[0],
+                    'major' => $d[1],
                     'spp_amount' => 150000
                 ]);
             }
         }
-
-        $subjects = Subject::all();
-        $recentAttendances = Attendance::with(['student', 'subject'])->orderBy('scanned_at', 'desc')->take(20)->get();
-        return view('admin.attendance.index', compact('subjects', 'recentAttendances'));
     }
 
-    // This route shows the QR code for a subject
-    public function showQr($subject_id)
+    // ==========================================
+    // Halaman utama: Daftar Mata Pelajaran
+    // ==========================================
+    public function index()
+    {
+        $this->seedData();
+
+        // Group subjects by class
+        $subjectsByClass = Subject::all()->groupBy('class_name');
+        $totalAttendances = Attendance::whereDate('date', today())->count();
+
+        return view('admin.attendance.index', compact('subjectsByClass', 'totalAttendances'));
+    }
+
+    // ==========================================
+    // Detail Mata Pelajaran: Siswa, Pengajar, Pertemuan 1-16
+    // ==========================================
+    public function detail($subject_id)
+    {
+        $subject = Subject::findOrFail($subject_id);
+
+        // Ambil siswa berdasarkan kelas (class_name subject = class siswa)
+        $students = Student::where('class', $subject->class_name)->get();
+
+        // Hitung kehadiran per pertemuan untuk setiap siswa
+        $attendanceData = [];
+        for ($meeting = 1; $meeting <= 16; $meeting++) {
+            $count = Attendance::where('subject_id', $subject_id)
+                ->where('meeting_number', $meeting)
+                ->count();
+            $attendanceData[$meeting] = $count;
+        }
+
+        return view('admin.attendance.detail', compact('subject', 'students', 'attendanceData'));
+    }
+
+    // ==========================================
+    // Tampilkan QR Code per Pertemuan
+    // ==========================================
+    public function showQr($subject_id, $meeting = 1)
     {
         $subject = Subject::findOrFail($subject_id);
         $date = date('Y-m-d');
-        // URL-safe token using hex (no slash or plus chars that break URLs)
-        $token = bin2hex($subject_id . '|' . $date . '|' . Str::random(5));
-        
+
+        // URL-safe token: hex encoding (no slashes)
+        $token = bin2hex($subject_id . '|' . $meeting . '|' . $date);
         $scanUrl = route('attendance.scan', ['token' => $token]);
-        
-        return view('admin.attendance.qr', compact('subject', 'date', 'scanUrl'));
+
+        return view('admin.attendance.qr', compact('subject', 'date', 'scanUrl', 'meeting'));
     }
 
-    // Public route for students to scan and enter NIS
+    // ==========================================
+    // Halaman Scan Publik (HP Siswa)
+    // ==========================================
     public function scanForm($token)
     {
         try {
             $decoded = hex2bin($token);
             $parts = explode('|', $decoded);
             $subject_id = $parts[0];
-            $date = $parts[1];
-            
+            $meeting = $parts[1];
+            $date = $parts[2];
+
             $subject = Subject::findOrFail($subject_id);
-            
-            // Optional: Check if the QR date matches today
+
             if ($date != date('Y-m-d')) {
-                return redirect('/')->with('error', 'Kode QR sudah kadaluarsa.');
+                return redirect('/')->with('error', 'Kode QR sudah kadaluarsa. Minta guru untuk menampilkan QR baru.');
             }
-            
-            return view('public.attendance-scan', compact('subject', 'date', 'token'));
+
+            $students = Student::where('class', $subject->class_name)->get();
+
+            return view('public.attendance-scan', compact('subject', 'date', 'token', 'meeting', 'students'));
         } catch (\Exception $e) {
             return redirect('/')->with('error', 'Kode QR tidak valid.');
         }
     }
 
-    // Process the scanned attendance
+    // ==========================================
+    // Proses Absensi (Submit dari HP Siswa)
+    // ==========================================
     public function submitScan(Request $request, $token)
     {
         $request->validate(['nis' => 'required|string']);
-        
+
         try {
             $decoded = hex2bin($token);
             $parts = explode('|', $decoded);
             $subject_id = $parts[0];
-            $date = $parts[1];
-            
+            $meeting = $parts[1];
+            $date = $parts[2];
+
             $student = Student::where('nis', $request->nis)->first();
-            
+
             if (!$student) {
-                return back()->with('error', 'Siswa dengan NIS ' . $request->nis . ' tidak ditemukan dalam sistem kami.');
+                return back()->with('error', 'Siswa dengan NIS ' . $request->nis . ' tidak ditemukan dalam sistem.');
             }
-            
-            // Check if already attended for this subject today
+
+            // Cek apakah sudah absen di pertemuan ini
             $exists = Attendance::where('student_id', $student->id)
                 ->where('subject_id', $subject_id)
-                ->where('date', $date)
+                ->where('meeting_number', $meeting)
                 ->exists();
-                
+
             if ($exists) {
-                return back()->with('success', 'Halo ' . $student->name . '! Anda sudah melakukan absensi untuk mata pelajaran ' . Subject::find($subject_id)->name . ' hari ini.');
+                return back()->with('warning', 'Halo ' . $student->name . '! Anda sudah melakukan absensi untuk Pertemuan ke-' . $meeting . ' ini.');
             }
-            
+
             Attendance::create([
-                'student_id' => $student->id,
-                'subject_id' => $subject_id,
-                'date' => $date,
-                'status' => 'hadir',
-                'scanned_at' => now(),
+                'student_id'     => $student->id,
+                'subject_id'     => $subject_id,
+                'meeting_number' => $meeting,
+                'date'           => $date,
+                'status'         => 'hadir',
+                'scanned_at'     => now(),
             ]);
-            
-            return back()->with('success', 'Berhasil! Absensi ' . $student->name . ' (' . $student->class . ' ' . $student->major . ') telah tercatat pada ' . now()->format('H:i') . '.');
-            
+
+            return back()->with('success', '✅ Berhasil! ' . $student->name . ' (' . $student->class . ') telah tercatat HADIR pada Pertemuan ke-' . $meeting . ' pukul ' . now()->format('H:i') . ' WIB.');
+
         } catch (\Exception $e) {
-            return back()->with('error', 'Terjadi kesalahan sistem saat memproses absensi.');
+            return back()->with('error', 'Terjadi kesalahan sistem: ' . $e->getMessage());
         }
     }
 }
-
