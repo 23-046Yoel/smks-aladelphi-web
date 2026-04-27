@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use App\Models\Student;
 use App\Models\Subject;
 
@@ -10,9 +11,13 @@ class AttendanceSeeder extends Seeder
 {
     public function run(): void
     {
+        // Disable foreign key checks to allow truncate
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
         // =============================================
         // Seed Subjects (Mata Pelajaran per Kelas)
         // =============================================
+        \App\Models\Attendance::truncate();
         Subject::truncate();
         $subjects = [
             // Kelas X RPL 1
@@ -71,5 +76,8 @@ class AttendanceSeeder extends Seeder
         }
 
         $this->command->info('Seeder selesai: ' . Subject::count() . ' mata pelajaran, ' . Student::count() . ' siswa.');
+
+        // Re-enable foreign key checks
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }
