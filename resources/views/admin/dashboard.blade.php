@@ -185,50 +185,40 @@
 
         <div class="stats-grid">
             <div class="stat-card">
-                <h2>{{ $teacherCount }}+</h2>
-                <h5>Tenaga Pendidik</h5>
+                <h2>{{ $totalEmployeeCount > 0 ? $totalEmployeeCount : '54' }}+</h2>
+                <h5>Tenaga Pendidik & Staf</h5>
             </div>
             <div class="stat-card red-version">
-                <h2>{{ number_format($studentCount) }}+</h2>
+                <h2>{{ $studentCount > 0 ? number_format($studentCount) : '1,200' }}+</h2>
                 <h5>Siswa Aktif</h5>
             </div>
             <div class="stat-card">
-                <h2>32</h2>
+                <h2>{{ $facilityCount > 0 ? $facilityCount : '32' }}</h2>
                 <h5>Fasilitas Sekolah</h5>
             </div>
         </div>
 
         <div class="content-grid">
             <div class="panel">
-                <h3>Aktivitas Terbaru</h3>
+                <h3>Tenaga Pendidik & Kependidikan Terbaru</h3>
                 <table>
                     <thead>
                         <tr>
-                            <th>User</th>
-                            <th>Aktivitas</th>
-                            <th>Waktu</th>
+                            <th>NIP</th>
+                            <th>Nama</th>
+                            <th>Jabatan</th>
                             <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach($employees as $emp)
                         <tr>
-                            <td>Operator 1</td>
-                            <td>Input nilai kelas X-RPL</td>
-                            <td>10 Menit yang lalu</td>
-                            <td><span class="badge badge-success">Berhasil</span></td>
+                            <td>{{ $emp->nip ?? '-' }}</td>
+                            <td style="font-weight: 600;">{{ $emp->name }}</td>
+                            <td>{{ $emp->position }}</td>
+                            <td><span class="badge badge-success">{{ strtoupper($emp->status) }}</span></td>
                         </tr>
-                        <tr>
-                            <td>Admin Keuangan</td>
-                            <td>Verifikasi SPP Budi S.</td>
-                            <td>25 Menit yang lalu</td>
-                            <td><span class="badge badge-success">Selesai</span></td>
-                        </tr>
-                        <tr>
-                            <td>Guru Agama</td>
-                            <td>Update modul pelajaran</td>
-                            <td>1 Jam yang lalu</td>
-                            <td><span class="badge badge-success">Aktif</span></td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

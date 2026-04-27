@@ -6,6 +6,15 @@ use Illuminate\Http\Request;
 
 class SystemController extends Controller
 {
+    public function index() {
+        $totalEmployeeCount = \App\Models\Employee::count();
+        $studentCount = \App\Models\Student::count();
+        $facilityCount = \App\Models\InventoryItem::count();
+        $employees = \App\Models\Employee::latest()->take(8)->get();
+
+        return view('welcome', compact('totalEmployeeCount', 'studentCount', 'facilityCount', 'employees'));
+    }
+
     public function ppdb() {
         return view('sistem.layout', ['title' => 'PPDB Online', 'icon' => 'fa-user-plus']);
     }

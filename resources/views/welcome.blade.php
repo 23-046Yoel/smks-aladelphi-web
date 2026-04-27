@@ -167,16 +167,72 @@
             <!-- Statistik Sekolah -->
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 60px;">
                 <div style="text-align: center; padding: 28px 20px; border-radius: 16px; background: #fff; border-bottom: 4px solid #e30613; box-shadow: 0 5px 20px rgba(0,0,0,0.05); transition: 0.3s;" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <h2 style="font-size: 2.5rem; font-weight: 800; margin: 0; color: #1a1a1a;">54+</h2>
-                    <p style="text-transform: uppercase; font-weight: 800; color: #e30613; margin: 8px 0 0; letter-spacing: 2px; font-size: 0.72rem;">Tenaga Pendidik</p>
+                    <h2 style="font-size: 2.5rem; font-weight: 800; margin: 0; color: #1a1a1a;">{{ $totalEmployeeCount > 0 ? $totalEmployeeCount : '54' }}+</h2>
+                    <p style="text-transform: uppercase; font-weight: 800; color: #e30613; margin: 8px 0 0; letter-spacing: 2px; font-size: 0.72rem;">Tenaga Pendidik & Staf</p>
                 </div>
                 <div style="text-align: center; padding: 28px 20px; border-radius: 16px; background: #e30613; border-bottom: 4px solid #a00; box-shadow: 0 5px 20px rgba(227,6,19,0.2); transition: 0.3s;" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <h2 style="font-size: 2.5rem; font-weight: 800; margin: 0; color: white;">1,200+</h2>
+                    <h2 style="font-size: 2.5rem; font-weight: 800; margin: 0; color: white;">{{ $studentCount > 0 ? number_format($studentCount) : '1,200' }}+</h2>
                     <p style="text-transform: uppercase; font-weight: 800; color: #fffb00; margin: 8px 0 0; letter-spacing: 2px; font-size: 0.72rem;">Siswa Aktif</p>
                 </div>
                 <div style="text-align: center; padding: 28px 20px; border-radius: 16px; background: #fff; border-bottom: 4px solid #e30613; box-shadow: 0 5px 20px rgba(0,0,0,0.05); transition: 0.3s;" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <h2 style="font-size: 2.5rem; font-weight: 800; margin: 0; color: #1a1a1a;">32</h2>
+                    <h2 style="font-size: 2.5rem; font-weight: 800; margin: 0; color: #1a1a1a;">{{ $facilityCount > 0 ? $facilityCount : '32' }}</h2>
                     <p style="text-transform: uppercase; font-weight: 800; color: #e30613; margin: 8px 0 0; letter-spacing: 2px; font-size: 0.72rem;">Fasilitas Sekolah</p>
+                </div>
+            </div>
+
+            <!-- Direktori Tenaga Pendidik & Staf -->
+            <div style="margin-top: 80px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; border-bottom: 2px solid #f0f0f0; padding-bottom: 20px;">
+                    <div>
+                        <p style="margin: 0; font-size: 0.8rem; font-weight: 700; color: #e30613; text-transform: uppercase; letter-spacing: 2px;">Mengenal Lebih Dekat</p>
+                        <h2 style="margin: 5px 0 0; font-size: 1.8rem; font-weight: 800; color: #1a1a1a;">Tenaga Pendidik & Staf</h2>
+                    </div>
+                    <a href="{{ route('kepegawaian.index') }}" style="color: #e30613; text-decoration: none; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; gap: 8px;">LIHAT SEMUA <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px;">
+                    @forelse($employees as $emp)
+                    <div style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: 0.3s; border: 1px solid #eee;" onmouseover="this.style.transform='translateY(-10px)'; this.style.borderColor='#e30613'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='#eee'">
+                        <div style="height: 220px; overflow: hidden; background: #f8f8f8;">
+                            @if($emp->photo)
+                                <img src="{{ asset('storage/' . $emp->photo) }}" alt="{{ $emp->name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                            @else
+                                <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #ddd; font-size: 4rem;">
+                                    <i class="fas fa-user-circle"></i>
+                                </div>
+                            @endif
+                        </div>
+                        <div style="padding: 20px; text-align: center;">
+                            <h4 style="margin: 0; font-size: 1.1rem; color: #1a1a1a; font-weight: 800;">{{ $emp->name }}</h4>
+                            <p style="margin: 5px 0 0; font-size: 0.75rem; color: #e30613; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">{{ $emp->position }}</p>
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #f0f0f0; display: flex; justify-content: center; gap: 15px; color: #888; font-size: 0.9rem;">
+                                <i class="fab fa-facebook-f"></i>
+                                <i class="fab fa-instagram"></i>
+                                <i class="fab fa-linkedin-in"></i>
+                            </div>
+                        </div>
+                    </div>
+                    @empty
+                    @php
+                        $placeholders = [
+                            ['name' => 'Guru Placeholder 1', 'pos' => 'Guru Produktif'],
+                            ['name' => 'Guru Placeholder 2', 'pos' => 'Guru Umum'],
+                            ['name' => 'Staf Placeholder 1', 'pos' => 'Administrasi'],
+                            ['name' => 'Staf Placeholder 2', 'pos' => 'Kesiswaan'],
+                        ];
+                    @endphp
+                    @foreach($placeholders as $p)
+                    <div style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: 0.3s; border: 1px solid #eee; opacity: 0.7;" onmouseover="this.style.transform='translateY(-10px)'; this.style.borderColor='#e30613'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='#eee'">
+                        <div style="height: 220px; overflow: hidden; background: #f8f8f8; display: flex; align-items: center; justify-content: center; color: #ddd; font-size: 4rem;">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div style="padding: 20px; text-align: center;">
+                            <h4 style="margin: 0; font-size: 1.1rem; color: #1a1a1a; font-weight: 800;">{{ $p['name'] }}</h4>
+                            <p style="margin: 5px 0 0; font-size: 0.75rem; color: #e30613; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">{{ $p['pos'] }}</p>
+                        </div>
+                    </div>
+                    @endforeach
+                    @endforelse
                 </div>
             </div>
 

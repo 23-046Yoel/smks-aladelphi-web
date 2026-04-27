@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [App\Http\Controllers\SystemController::class, 'index'])->name('home');
 
 Route::get('/tentang/visi-misi', function () {
     return view('about.visi-misi');
