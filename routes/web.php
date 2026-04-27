@@ -95,6 +95,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/attendance', [App\Http\Controllers\AttendanceController::class, 'index'])->name('admin.attendance.index');
     Route::get('/attendance/{subject_id}/detail', [App\Http\Controllers\AttendanceController::class, 'detail'])->name('admin.attendance.detail');
     Route::get('/attendance/{subject_id}/qr/{meeting}', [App\Http\Controllers\AttendanceController::class, 'showQr'])->name('admin.attendance.qr');
+    Route::post('/attendance/{subject_id}/set-president', [App\Http\Controllers\AttendanceController::class, 'setPresident'])->name('admin.attendance.set-president');
 });
 
 // Public Inventory Route

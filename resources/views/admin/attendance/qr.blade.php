@@ -3,194 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Absensi - {{ $subject->name }} (Pertemuan {{ $meeting }})</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&display=swap" rel="stylesheet">
+    <title>QR Absensi — {{ $subject->name }} Pertemuan {{ $meeting }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root { --red: #e30613; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Outfit', sans-serif;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d1010 100%);
+            background: #111;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 24px;
         }
-        .qr-wrapper {
+        .wrapper {
             display: flex;
-            gap: 30px;
-            align-items: stretch;
-            max-width: 850px;
+            gap: 24px;
             width: 100%;
+            max-width: 900px;
+            align-items: stretch;
         }
-        .qr-card {
-            background: white;
-            border-radius: 24px;
-            padding: 40px 35px;
-            text-align: center;
-            flex: 1;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
-        }
-        .school-logo { width: 65px; margin-bottom: 12px; }
-        .school-name { font-size: 0.75rem; font-weight: 700; color: #888; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
-        .meeting-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #e30613, #b0050f);
-            color: white;
-            padding: 5px 18px;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            letter-spacing: 1px;
-        }
-        .subject-name { font-size: 1.6rem; font-weight: 800; color: #1a1a1a; margin-bottom: 5px; }
-        .class-info { font-size: 0.85rem; color: #e30613; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
-        .teacher-info { font-size: 0.8rem; color: #888; margin-bottom: 25px; }
-        .qr-box {
-            background: #fff;
-            border: 3px solid #f0f0f0;
-            border-radius: 20px;
-            padding: 18px;
-            display: inline-block;
-            margin-bottom: 20px;
-        }
-        .qr-box img { width: 260px; height: 260px; display: block; }
-        .scan-instruction { font-size: 0.85rem; color: #999; margin-bottom: 25px; line-height: 1.5; }
-        .scan-instruction strong { color: #555; }
-        .date-info { background: #f8f8f8; border-radius: 12px; padding: 10px 20px; font-size: 0.8rem; color: #888; margin-bottom: 20px; }
-        .btn-back {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #1a1a1a;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.85rem;
-            transition: 0.3s;
-        }
-        .btn-back:hover { background: #e30613; }
 
-        /* Info panel */
-        .info-panel {
-            background: rgba(255,255,255,0.08);
-            border-radius: 24px;
-            padding: 30px 25px;
-            width: 220px;
+        /* Info Sidebar */
+        .info-sidebar {
+            width: 210px;
             flex-shrink: 0;
-            color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
         }
-        .info-panel h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 20px; color: #e30613; text-transform: uppercase; letter-spacing: 1px; }
-        .info-item { margin-bottom: 18px; }
-        .info-item .label { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-        .info-item .value { font-size: 0.9rem; font-weight: 600; color: white; }
-        .refresh-btn {
-            display: block;
-            text-align: center;
-            background: linear-gradient(135deg, #e30613, #b0050f);
+        .info-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 18px 16px;
+        }
+        .info-card .label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .info-card .value {
+            font-size: 0.9rem;
+            font-weight: 700;
             color: white;
+            line-height: 1.3;
+        }
+        .info-card .value.red { color: var(--red); font-size: 1.6rem; }
+        .time-card {
+            background: linear-gradient(135deg, rgba(227,6,19,0.15), rgba(139,0,0,0.1));
+            border: 1px solid rgba(227,6,19,0.2);
+            border-radius: 16px;
+            padding: 18px 16px;
+            text-align: center;
+        }
+        .time-card .time-val { font-size: 1.8rem; font-weight: 800; color: white; letter-spacing: 2px; }
+        .time-card .time-label { font-size: 0.68rem; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-top: 3px; }
+        .btn-back-sidebar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.07);
+            color: #aaa;
             padding: 12px;
             border-radius: 12px;
             text-decoration: none;
-            font-weight: 700;
-            font-size: 0.8rem;
-            margin-top: 25px;
-            transition: 0.3s;
+            font-weight: 600;
+            font-size: 0.82rem;
+            transition: 0.2s;
+            border: 1px solid rgba(255,255,255,0.08);
+            margin-top: auto;
         }
-        .refresh-btn:hover { opacity: 0.85; }
+        .btn-back-sidebar:hover { background: rgba(255,255,255,0.12); color: white; }
 
-        /* Auto refresh countdown */
-        .countdown { font-size: 0.75rem; color: #888; margin-top: 10px; text-align: center; }
+        /* QR Card */
+        .qr-card {
+            flex: 1;
+            background: white;
+            border-radius: 24px;
+            padding: 36px 32px;
+            text-align: center;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+        }
+        .school-logo { height: 60px; margin-bottom: 10px; }
+        .school-name { font-size: 0.72rem; font-weight: 700; color: #999; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 18px; }
+        .meeting-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: #1a1a1a;
+            color: white;
+            padding: 6px 18px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+            letter-spacing: 0.5px;
+        }
+        .meeting-badge .num { color: var(--red); font-size: 1rem; }
+        .subject-title { font-size: 1.7rem; font-weight: 800; color: #1a1a1a; margin-bottom: 4px; }
+        .class-label { font-size: 0.82rem; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+        .teacher-label { font-size: 0.8rem; color: #aaa; margin-bottom: 24px; }
+        .qr-frame {
+            border: 3px solid #f0f0f0;
+            border-radius: 20px;
+            padding: 16px;
+            display: inline-block;
+            margin-bottom: 18px;
+            background: white;
+        }
+        .qr-frame img { width: 240px; height: 240px; display: block; }
+        .scan-steps {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 20px;
+        }
+        .step { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+        .step .step-icon { width: 36px; height: 36px; border-radius: 50%; background: #f4f6f9; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: var(--red); }
+        .step .step-text { font-size: 0.72rem; color: #888; max-width: 80px; line-height: 1.3; }
+        .step-divider { width: 30px; height: 1px; background: #e5e7eb; align-self: center; margin-bottom: 18px; }
+        .date-strip { background: #f9fafb; border-radius: 10px; padding: 8px 20px; font-size: 0.8rem; color: #888; display: inline-block; }
+        .date-strip i { color: var(--red); margin-right: 5px; }
     </style>
 </head>
 <body>
 
-<div class="qr-wrapper">
-    <!-- Left: Info Panel -->
-    <div class="info-panel">
-        <h3>📋 Info Kelas</h3>
-        <div class="info-item">
-            <div class="label">Mata Pelajaran</div>
-            <div class="value">{{ $subject->name }}</div>
+<div class="wrapper">
+    <!-- Info Sidebar -->
+    <div class="info-sidebar">
+        <div class="time-card">
+            <div class="time-val" id="clock">--:--:--</div>
+            <div class="time-label">Waktu Sekarang</div>
         </div>
-        <div class="info-item">
+        <div class="info-card">
             <div class="label">Kelas</div>
             <div class="value">{{ $subject->class_name }}</div>
         </div>
-        <div class="info-item">
+        <div class="info-card">
             <div class="label">Pengajar</div>
             <div class="value">{{ $subject->teacher_name }}</div>
         </div>
-        <div class="info-item">
+        <div class="info-card">
             <div class="label">Pertemuan</div>
-            <div class="value">Ke-{{ $meeting }} dari 16</div>
+            <div class="value red">{{ $meeting }}</div>
+            <div class="label" style="margin-top:4px;">dari 16 pertemuan</div>
         </div>
-        <div class="info-item">
+        <div class="info-card">
             <div class="label">Tanggal</div>
             <div class="value">{{ \Carbon\Carbon::parse($date)->format('d M Y') }}</div>
         </div>
-        <div class="info-item">
-            <div class="label">Jam Dibuka</div>
-            <div class="value" id="current-time">{{ now()->format('H:i:s') }}</div>
-        </div>
-        <a href="{{ route('admin.attendance.qr', ['subject_id' => $subject->id, 'meeting' => $meeting]) }}" class="refresh-btn">
-            🔄 Refresh QR
+        <a href="{{ route('admin.attendance.detail', $subject->id) }}" class="btn-back-sidebar">
+            <i class="fas fa-arrow-left"></i> Kembali
         </a>
-        <div class="countdown" id="countdown">Auto refresh dalam <span id="timer">60</span>s</div>
     </div>
 
-    <!-- Right: QR Card -->
+    <!-- QR Code Card -->
     <div class="qr-card">
         <img src="{{ asset('images/official_logo.png') }}" alt="Logo" class="school-logo">
         <div class="school-name">SMKS Aladelphi Tiga Binanga</div>
-        <div class="meeting-badge">📅 PERTEMUAN KE-{{ $meeting }}</div>
-        <div class="subject-name">{{ $subject->name }}</div>
-        <div class="class-info">Kelas {{ $subject->class_name }}</div>
-        <div class="teacher-info">{{ $subject->teacher_name }}</div>
 
-        <div class="qr-box">
-            <img src="https://quickchart.io/qr?text={{ urlencode($scanUrl) }}&size=260&margin=2" alt="QR Code Absensi" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=260x260&data={{ urlencode($scanUrl) }}'">
+        <div class="meeting-badge">
+            <i class="fas fa-calendar-check"></i>
+            Pertemuan ke-<span class="num">{{ $meeting }}</span>
         </div>
 
-        <p class="scan-instruction">
-            <strong>Cara Absen:</strong><br>
-            1. Scan QR Code di atas menggunakan kamera HP<br>
-            2. Masukkan NIS Anda di halaman yang terbuka<br>
-            3. Klik tombol <strong>"Hadir"</strong>
-        </p>
+        <div class="subject-title">{{ $subject->name }}</div>
+        <div class="class-label">Kelas {{ $subject->class_name }}</div>
+        <div class="teacher-label"><i class="fas fa-chalkboard-teacher"></i> {{ $subject->teacher_name }}</div>
 
-        <div class="date-info">
-            📅 {{ \Carbon\Carbon::parse($date)->format('l, d F Y') }}
+        <div class="qr-frame">
+            <img src="https://quickchart.io/qr?text={{ urlencode($scanUrl) }}&size=240&margin=2"
+                 alt="QR Code"
+                 onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=240x240&data={{ urlencode($scanUrl) }}'">
         </div>
 
-        <a href="{{ route('admin.attendance.detail', $subject->id) }}" class="btn-back">
-            ← Kembali ke Detail Kelas
-        </a>
+        <!-- Langkah scan -->
+        <div class="scan-steps">
+            <div class="step">
+                <div class="step-icon"><i class="fas fa-mobile-alt"></i></div>
+                <div class="step-text">Buka kamera HP</div>
+            </div>
+            <div class="step-divider"></div>
+            <div class="step">
+                <div class="step-icon"><i class="fas fa-qrcode"></i></div>
+                <div class="step-text">Scan QR code</div>
+            </div>
+            <div class="step-divider"></div>
+            <div class="step">
+                <div class="step-icon"><i class="fas fa-id-card"></i></div>
+                <div class="step-text">Masukkan NIS</div>
+            </div>
+            <div class="step-divider"></div>
+            <div class="step">
+                <div class="step-icon"><i class="fas fa-check"></i></div>
+                <div class="step-text">Absen tercatat</div>
+            </div>
+        </div>
+
+        <div class="date-strip">
+            <i class="fas fa-clock"></i>
+            {{ \Carbon\Carbon::parse($date)->translatedFormat('l, d F Y') }}
+        </div>
     </div>
 </div>
 
 <script>
-    // Update jam setiap detik
-    setInterval(function() {
+    // Live clock only — no auto refresh
+    function updateClock() {
         const now = new Date();
         const h = String(now.getHours()).padStart(2, '0');
         const m = String(now.getMinutes()).padStart(2, '0');
         const s = String(now.getSeconds()).padStart(2, '0');
-        document.getElementById('current-time').textContent = h + ':' + m + ':' + s;
-    }, 1000);
-
-    // Auto refresh countdown
-    let timeLeft = 60;
-    setInterval(function() {
-        timeLeft--;
-        document.getElementById('timer').textContent = timeLeft;
-        if (timeLeft <= 0) {
-            window.location.reload();
-        }
-    }, 1000);
+        document.getElementById('clock').textContent = h + ':' + m + ':' + s;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
 </script>
+
 </body>
 </html>

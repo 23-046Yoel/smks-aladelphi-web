@@ -178,10 +178,23 @@ class AttendanceController extends Controller
                 'scanned_at'     => now(),
             ]);
 
-            return back()->with('success', '✅ Berhasil! ' . $student->name . ' (' . $student->class . ') telah tercatat HADIR pada Pertemuan ke-' . $meeting . ' pukul ' . now()->format('H:i') . ' WIB.');
+            return back()->with('success', 'Berhasil! ' . $student->name . ' (' . $student->class . ') telah tercatat HADIR pada Pertemuan ke-' . $meeting . ' pukul ' . now()->format('H:i') . ' WIB.');
 
         } catch (\Exception $e) {
             return back()->with('error', 'Terjadi kesalahan sistem: ' . $e->getMessage());
         }
+    }
+
+    // ==========================================
+    // Set Ketua Kelas
+    // ==========================================
+    public function setPresident(Request $request, $subject_id)
+    {
+        $request->validate(['class_president' => 'required|string']);
+        $subject = Subject::findOrFail($subject_id);
+        $subject->class_president = $request->class_president;
+        $subject->save();
+        return redirect()->route('admin.attendance.detail', $subject_id)
+            ->with('success', $request->class_president . ' berhasil ditetapkan sebagai Ketua Kelas.');
     }
 }
