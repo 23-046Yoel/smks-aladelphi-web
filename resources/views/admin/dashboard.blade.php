@@ -70,40 +70,41 @@
         }
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 25px;
             margin-bottom: 40px;
         }
         .stat-card {
             background: white;
-            padding: 30px;
+            padding: 40px 20px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
-            display: flex;
-            align-items: center;
-            gap: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+            text-align: center;
+            border-bottom: 4px solid var(--red);
+            transition: 0.3s;
         }
-        .stat-icon {
-            width: 60px;
-            height: 60px;
-            background: rgba(227, 6, 19, 0.05);
-            color: var(--red);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 15px;
-            font-size: 1.5rem;
+        .stat-card.red-version {
+            background: var(--red);
+            color: white;
+            border-bottom: none;
+            box-shadow: 0 15px 45px rgba(227, 6, 19, 0.2);
         }
-        .stat-data h4 {
+        .stat-card h2 {
+            font-size: 3rem;
             margin: 0;
-            color: #888;
-            font-size: 0.85rem;
-        }
-        .stat-data p {
-            margin: 5px 0 0;
-            font-size: 1.5rem;
             font-weight: 800;
         }
+        .stat-card h5 {
+            margin: 15px 0 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.75rem;
+            color: var(--red);
+        }
+        .stat-card.red-version h5 {
+            color: rgba(255,255,255,0.8);
+        }
+
         .content-grid {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -184,32 +185,16 @@
 
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-icon"><i class="fas fa-user-graduate"></i></div>
-                <div class="stat-data">
-                    <h4>Total Siswa</h4>
-                    <p>1,245</p>
-                </div>
+                <h2>{{ $teacherCount }}+</h2>
+                <h5>Tenaga Pendidik</h5>
+            </div>
+            <div class="stat-card red-version">
+                <h2>{{ number_format($studentCount) }}+</h2>
+                <h5>Siswa Aktif</h5>
             </div>
             <div class="stat-card">
-                <div class="stat-icon"><i class="fas fa-user-tie"></i></div>
-                <div class="stat-data">
-                    <h4>Total Guru</h4>
-                    <p>54</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon"><i class="fas fa-file-invoice-dollar"></i></div>
-                <div class="stat-data">
-                    <h4>Pemasukan Hari Ini</h4>
-                    <p>Rp 4.5M</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon"><i class="fas fa-user-plus"></i></div>
-                <div class="stat-data">
-                    <h4>Pendaftar PPDB</h4>
-                    <p>128</p>
-                </div>
+                <h2>32</h2>
+                <h5>Fasilitas Sekolah</h5>
             </div>
         </div>
 
