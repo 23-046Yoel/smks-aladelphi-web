@@ -69,19 +69,11 @@ class AttendanceController extends Controller
     {
         $this->seedData();
 
-        // Mengambil semua mata pelajaran dan mengelompokkannya berdasarkan 'class'
-        $subjects = Subject::all();
-        $subjectsByClass = $subjects->groupBy('class_name');
+        // Group subjects by class
+        $subjectsByClass = Subject::all()->groupBy('class_name');
+        $totalAttendances = Attendance::whereDate('date', today())->count();
 
-        // Total absensi hari ini
-        $totalAttendances = Attendance::whereDate('created_at', today())->count();
-
-        $attendances = Attendance::with(['subject', 'student'])
-            ->orderBy('created_at', 'desc')
-            ->take(50)
-            ->get();
-
-        return view('admin.attendance.index', compact('subjectsByClass', 'totalAttendances', 'attendances'));
+        return view('admin.attendance.index', compact('subjectsByClass', 'totalAttendances'));
     }
 
     // ==========================================
@@ -127,35 +119,26 @@ class AttendanceController extends Controller
     // ==========================================
     public function scanForm(Request $request)
     {
-        $token = $request->query('t');
-
-        if (!$token) {
-            abort(400, 'Token QR tidak ditemukan dalam URL.');
-        }
-
         try {
-            $decoded    = hex2bin($token);
-            $parts      = explode('|', $decoded);
-
-            if (count($parts) < 3) {
-                throw new \Exception('Format token tidak valid.');
-            }
-
+            $token = $request->query('t');
+            if (!$token) return redirect('/')->with('error', 'Token tidak ditemukan.');
+            $decoded = hex2bin($token);
+            $parts = explode('|', $decoded);
             $subject_id = $parts[0];
             $meeting    = $parts[1];
             $date       = $parts[2];
-            $subject    = Subject::findOrFail($subject_id);
-            $students   = Student::where('class', $subject->class_name)->get();
+
+            $subject = Subject::findOrFail($subject_id);
+
+            if ($date != date('Y-m-d')) {
+                return redirect('/')->with('error', 'Kode QR sudah kadaluarsa. Minta guru untuk menampilkan QR baru.');
+            }
+
+            $students = Student::where('class', $subject->class_name)->get();
 
             return view('public.attendance-scan', compact('subject', 'date', 'token', 'meeting', 'students'));
-
         } catch (\Exception $e) {
-            // Tampilkan error langsung di halaman, bukan redirect ke home
-            $errMsg = $e->getMessage();
-            return response("
-                <h2 style='font-family:sans-serif;padding:20px;color:#c00'>QR Error</h2>
-                <p style='font-family:sans-serif;padding:20px'>Pesan: {$errMsg}<br><br>Token: {$token}<br><br><a href='/'>Ke Beranda</a></p>
-            ", 200);
+            return redirect('/')->with('error', 'Kode QR tidak valid: ' . $e->getMessage());
         }
     }
 

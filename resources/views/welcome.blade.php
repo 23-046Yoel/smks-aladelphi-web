@@ -23,7 +23,8 @@
         <div class="top-bar-social">
             🌐 ID | EN
         </div>
-    </div    <!-- Header -->
+    </div>
+    <!-- Header -->
     <header>
         <div class="logo">
             <!-- Official School Logo Image -->
@@ -164,18 +165,17 @@
                 </div>
             </div>
 
-            <!-- Statistik Sekolah -->
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 60px;">
                 <div style="text-align: center; padding: 28px 20px; border-radius: 16px; background: #fff; border-bottom: 4px solid #e30613; box-shadow: 0 5px 20px rgba(0,0,0,0.05); transition: 0.3s;" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <h2 style="font-size: 2.5rem; font-weight: 800; margin: 0; color: #1a1a1a;">{{ $totalEmployeeCount > 0 ? $totalEmployeeCount : '54' }}+</h2>
+                    <h2 style="font-size: 2.5rem; font-weight: 800; margin: 0; color: #1a1a1a;">{{ ($totalEmployeeCount ?? 0) > 0 ? $totalEmployeeCount : '54' }}+</h2>
                     <p style="text-transform: uppercase; font-weight: 800; color: #e30613; margin: 8px 0 0; letter-spacing: 2px; font-size: 0.72rem;">Tenaga Pendidik & Staf</p>
                 </div>
                 <div style="text-align: center; padding: 28px 20px; border-radius: 16px; background: #e30613; border-bottom: 4px solid #a00; box-shadow: 0 5px 20px rgba(227,6,19,0.2); transition: 0.3s;" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <h2 style="font-size: 2.5rem; font-weight: 800; margin: 0; color: white;">{{ $studentCount > 0 ? number_format($studentCount) : '1,200' }}+</h2>
+                    <h2 style="font-size: 2.5rem; font-weight: 800; margin: 0; color: white;">{{ ($studentCount ?? 0) > 0 ? number_format($studentCount) : '1,200' }}+</h2>
                     <p style="text-transform: uppercase; font-weight: 800; color: #fffb00; margin: 8px 0 0; letter-spacing: 2px; font-size: 0.72rem;">Siswa Aktif</p>
                 </div>
                 <div style="text-align: center; padding: 28px 20px; border-radius: 16px; background: #fff; border-bottom: 4px solid #e30613; box-shadow: 0 5px 20px rgba(0,0,0,0.05); transition: 0.3s;" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <h2 style="font-size: 2.5rem; font-weight: 800; margin: 0; color: #1a1a1a;">{{ $facilityCount > 0 ? $facilityCount : '32' }}</h2>
+                    <h2 style="font-size: 2.5rem; font-weight: 800; margin: 0; color: #1a1a1a;">{{ ($facilityCount ?? 0) > 0 ? $facilityCount : '32' }}</h2>
                     <p style="text-transform: uppercase; font-weight: 800; color: #e30613; margin: 8px 0 0; letter-spacing: 2px; font-size: 0.72rem;">Fasilitas Sekolah</p>
                 </div>
             </div>
@@ -191,7 +191,7 @@
                 </div>
 
                 <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px;">
-                    @forelse($employees as $emp)
+                    @forelse($employees ?? [] as $emp)
                     <div style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: 0.3s; border: 1px solid #eee;" onmouseover="this.style.transform='translateY(-10px)'; this.style.borderColor='#e30613'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='#eee'">
                         <div style="height: 220px; overflow: hidden; background: #f8f8f8;">
                             @if($emp->photo)

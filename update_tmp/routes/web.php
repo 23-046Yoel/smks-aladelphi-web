@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -106,7 +105,7 @@ Route::get('/inventaris', [App\Http\Controllers\InventoryController::class, 'ind
 Route::get('/pindai/absen', [App\Http\Controllers\AttendanceController::class, 'scanForm'])->name('attendance.scan');
 Route::post('/pindai/absen', [App\Http\Controllers\AttendanceController::class, 'submitScan'])->name('attendance.submit');
 
-// Route untuk Clear Cache dari Browser
+// Route untuk Clear Cache dari Browser (Penting untuk hosting online)
 Route::get('/clear-cache', function() {
     Artisan::call('route:clear');
     Artisan::call('config:clear');
