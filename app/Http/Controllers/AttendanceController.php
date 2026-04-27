@@ -51,8 +51,8 @@ class AttendanceController extends Controller
     {
         $subject = Subject::findOrFail($subject_id);
         $date = date('Y-m-d');
-        // Simple token for security: base64 of subject_id|date|salt
-        $token = base64_encode($subject_id . '|' . $date . '|' . Str::random(5));
+        // URL-safe token using hex (no slash or plus chars that break URLs)
+        $token = bin2hex($subject_id . '|' . $date . '|' . Str::random(5));
         
         $scanUrl = route('attendance.scan', ['token' => $token]);
         
@@ -63,7 +63,7 @@ class AttendanceController extends Controller
     public function scanForm($token)
     {
         try {
-            $decoded = base64_decode($token);
+            $decoded = hex2bin($token);
             $parts = explode('|', $decoded);
             $subject_id = $parts[0];
             $date = $parts[1];
@@ -87,7 +87,7 @@ class AttendanceController extends Controller
         $request->validate(['nis' => 'required|string']);
         
         try {
-            $decoded = base64_decode($token);
+            $decoded = hex2bin($token);
             $parts = explode('|', $decoded);
             $subject_id = $parts[0];
             $date = $parts[1];
