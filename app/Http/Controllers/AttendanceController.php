@@ -12,65 +12,13 @@ use Illuminate\Support\Str;
 class AttendanceController extends Controller
 {
     // ==========================================
-    // Seed default data jika masih kosong
-    // ==========================================
-    private function seedData()
-    {
-        if (Subject::count() == 0) {
-            $subjects = [
-                // Kelas X RPL 1
-                ['name' => 'Pemrograman Dasar', 'code' => 'PD-XRPL1', 'teacher_name' => 'Ir. Bambang Wijaya, S.Kom', 'class_name' => 'X RPL 1', 'class_president' => 'Ahmad Fauzi'],
-                ['name' => 'Basis Data', 'code' => 'BD-XRPL1', 'teacher_name' => 'Siti Aminah, M.Pd', 'class_name' => 'X RPL 1', 'class_president' => 'Ahmad Fauzi'],
-                // Kelas X TKJ 1
-                ['name' => 'Jaringan Komputer', 'code' => 'JK-XTKJ1', 'teacher_name' => 'Drs. Budi Santoso', 'class_name' => 'X TKJ 1', 'class_president' => 'Rina Agustina'],
-                ['name' => 'Sistem Operasi', 'code' => 'SO-XTKJ1', 'teacher_name' => 'Hendra Gunawan, S.T', 'class_name' => 'X TKJ 1', 'class_president' => 'Rina Agustina'],
-                // Kelas XI RPL 1
-                ['name' => 'Pemrograman Web', 'code' => 'PW-XIRPL1', 'teacher_name' => 'Dewi Kusuma, M.Kom', 'class_name' => 'XI RPL 1', 'class_president' => 'Budi Hartono'],
-                ['name' => 'Pemrograman Mobile', 'code' => 'PM-XIRPL1', 'teacher_name' => 'Ir. Bambang Wijaya, S.Kom', 'class_name' => 'XI RPL 1', 'class_president' => 'Budi Hartono'],
-                // Kelas XII RPL 1
-                ['name' => 'Proyek Perangkat Lunak', 'code' => 'PPL-XIIRPL1', 'teacher_name' => 'Dewi Kusuma, M.Kom', 'class_name' => 'XII RPL 1', 'class_president' => 'Citra Dewi'],
-                // Mata pelajaran umum
-                ['name' => 'Matematika', 'code' => 'MTK-X', 'teacher_name' => 'Drs. Ahmad, M.Pd', 'class_name' => 'X RPL 1', 'class_president' => 'Ahmad Fauzi'],
-                ['name' => 'Bahasa Indonesia', 'code' => 'BIN-XI', 'teacher_name' => 'Ibu Sari, S.Pd', 'class_name' => 'XI RPL 1', 'class_president' => 'Budi Hartono'],
-                ['name' => 'Bahasa Inggris', 'code' => 'ENG-XII', 'teacher_name' => 'Mr. John, M.A', 'class_name' => 'XII RPL 1', 'class_president' => 'Citra Dewi'],
-            ];
-            Subject::insert(array_map(function($s) {
-                return array_merge($s, ['created_at' => now(), 'updated_at' => now()]);
-            }, $subjects));
-        }
-
-        if (Student::count() == 0) {
-            $data = [
-                ['X RPL 1', 'RPL'], ['X RPL 1', 'RPL'], ['X RPL 1', 'RPL'], ['X RPL 1', 'RPL'], ['X RPL 1', 'RPL'],
-                ['X TKJ 1', 'TKJ'], ['X TKJ 1', 'TKJ'], ['X TKJ 1', 'TKJ'], ['X TKJ 1', 'TKJ'], ['X TKJ 1', 'TKJ'],
-                ['XI RPL 1', 'RPL'], ['XI RPL 1', 'RPL'], ['XI RPL 1', 'RPL'], ['XI RPL 1', 'RPL'], ['XI RPL 1', 'RPL'],
-                ['XII RPL 1', 'RPL'], ['XII RPL 1', 'RPL'], ['XII RPL 1', 'RPL'], ['XII RPL 1', 'RPL'], ['XII RPL 1', 'RPL'],
-            ];
-            $names = ['Ahmad Fauzi','Budi Santoso','Citra Dewi','Dina Rahayu','Eko Prasetyo',
-                      'Fani Putri','Gilang Ramadhan','Hana Safitri','Irfan Hakim','Joko Susilo',
-                      'Kartika Sari','Lina Marlina','Muhammad Rizki','Nadia Aulia','Omar Faruq',
-                      'Putri Anggraini','Qodri Ananda','Rina Agustina','Sandi Pratama','Tina Wulandari'];
-            foreach ($data as $i => $d) {
-                Student::create([
-                    'nis' => '2024' . str_pad($i + 1, 4, '0', STR_PAD_LEFT),
-                    'name' => $names[$i] ?? 'Siswa ' . ($i + 1),
-                    'class' => $d[0],
-                    'major' => $d[1],
-                    'spp_amount' => 150000
-                ]);
-            }
-        }
-    }
-
-    // ==========================================
     // Halaman utama: Daftar Mata Pelajaran
     // ==========================================
     public function index()
     {
-        $this->seedData();
-
         // Mengambil semua mata pelajaran dan mengelompokkannya berdasarkan 'class'
         $subjects = Subject::all();
+
         $subjectsByClass = $subjects->groupBy('class_name');
 
         // Total absensi hari ini

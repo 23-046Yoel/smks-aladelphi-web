@@ -34,11 +34,16 @@
                 <span>TIGA BINANGA</span>
             </div>
         </div>
-        <nav>
+        <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav id="mainNav">
             <ul>
                 <li><a href="{{ url('/') }}">Beranda</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropbtn">Tentang Kami <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <li class="dropdown" id="dropdownItem">
+                    <a href="#" class="dropbtn" id="dropdownToggle">Tentang Kami <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
                     <div class="dropdown-content">
                         <a href="{{ route('about.visi-misi') }}"><i class="fas fa-bullseye"></i> Visi & Misi</a>
                         <a href="{{ route('kepegawaian.index') }}"><i class="fas fa-users"></i> Direktori Pegawai</a>
@@ -48,7 +53,7 @@
                 </li>
                 <li><a href="#">Jurusan</a></li>
                 <li><a href="{{ route('public.cek-spp') }}">Cek SPP</a></li>
-                <li><a href="{{ route('spmb.index') }}">SPMB ONLINE SMKS ALADELPHI</a></li>
+                <li><a href="{{ route('spmb.index') }}">SPMB Online</a></li>
                 <li><a href="#">Kontak</a></li>
             </ul>
         </nav>
@@ -110,7 +115,7 @@
             </div>
 
             <!-- Layout Konten -->
-            <div style="display: grid; grid-template-columns: 260px 1fr; gap: 60px; align-items: start;">
+            <div class="sambutan-grid" style="display: grid; grid-template-columns: 260px 1fr; gap: 60px; align-items: start;">
 
                 <!-- Kolom Kiri: Foto -->
                 <div style="position: sticky; top: 100px; text-align: center;">
@@ -495,6 +500,45 @@
 
         // Auto slide
         setInterval(() => showSlide(index + 1), 6000);
+    </script>
+
+    <!-- Mobile Navigation Script -->
+    <script>
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const mainNav = document.getElementById('mainNav');
+        const dropdownItem = document.getElementById('dropdownItem');
+        const dropdownToggle = document.getElementById('dropdownToggle');
+
+        // Toggle hamburger
+        hamburgerBtn.addEventListener('click', function() {
+            this.classList.toggle('open');
+            mainNav.classList.toggle('open');
+        });
+
+        // Mobile dropdown toggle
+        dropdownToggle.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                dropdownItem.classList.toggle('active');
+            }
+        });
+
+        // Close nav when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!hamburgerBtn.contains(e.target) && !mainNav.contains(e.target)) {
+                hamburgerBtn.classList.remove('open');
+                mainNav.classList.remove('open');
+            }
+        });
+
+        // Close nav on resize to desktop
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                hamburgerBtn.classList.remove('open');
+                mainNav.classList.remove('open');
+                dropdownItem.classList.remove('active');
+            }
+        });
     </script>
 
 </body>
