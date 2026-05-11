@@ -28,7 +28,7 @@
     <header>
         <div class="logo">
             <!-- Official School Logo Image -->
-            <img src="{{ asset('images/official_logo.png') }}" alt="Logo SMK Ala Delphi" style="height: 100px; width: auto; filter: none;">
+            <img src="{{ asset('images/official_logo.png') }}" alt="Logo SMK Ala Delphi" style="height: 100px; width: auto;" loading="eager">
             <div class="logo-text">
                 <h1>SMK SWASTA ALA DELPHI</h1>
                 <span>TIGA BINANGA</span>
@@ -68,7 +68,7 @@
             @endphp
             @foreach ($sliderImages as $index => $img)
             <div class="slide">
-                <img src="{{ asset('images/' . $img) }}" alt="School Life {{ $index + 1 }}">
+                <img src="{{ asset('images/' . $img) }}" alt="School Life {{ $index + 1 }}" loading="{{ $index == 0 ? 'eager' : 'lazy' }}">
                 <div class="slide-overlay">
                     <h2>SPMB TA 2026 / 2027</h2>
                     <p>Selamat datang di Pusat Keunggulan SMKS Ala Delphi. Bergabunglah bersama kami untuk masa depan yang lebih cerah.</p>
@@ -121,7 +121,7 @@
                 <div style="position: sticky; top: 100px; text-align: center;">
                     <!-- Foto Kotak Elegan -->
                     <div style="position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 50px rgba(227,6,19,0.18), 0 8px 20px rgba(0,0,0,0.1); margin-bottom: 0;">
-                        <img src="{{ asset('images/kepala_sekolah.png') }}" alt="Kepala Sekolah" style="width: 100%; height: 340px; object-fit: cover; object-position: top center; display: block;">
+                        <img src="{{ asset('images/kepala_sekolah.png') }}" alt="Kepala Sekolah" style="width: 100%; height: 340px; object-fit: cover; object-position: top center; display: block;" loading="lazy">
                         <!-- Overlay gradient di bawah foto -->
                         <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(26,26,26,0.92)); padding: 30px 20px 22px;">
                             <h4 style="margin: 0; font-size: 1rem; font-weight: 800; color: #fff; letter-spacing: 0.5px;">NAMA KEPALA SEKOLAH</h4>
@@ -200,7 +200,7 @@
                     <div style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: 0.3s; border: 1px solid #eee;" onmouseover="this.style.transform='translateY(-10px)'; this.style.borderColor='#e30613'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='#eee'">
                         <div style="height: 220px; overflow: hidden; background: #f8f8f8;">
                             @if($emp->photo)
-                                <img src="{{ asset('storage/' . $emp->photo) }}" alt="{{ $emp->name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="{{ asset('storage/' . $emp->photo) }}" alt="{{ $emp->name }}" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
                             @else
                                 <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #ddd; font-size: 4rem;">
                                     <i class="fas fa-user-circle"></i>
@@ -414,7 +414,7 @@
             <div style="display: grid; grid-template-columns: 1.2fr 1fr 0.8fr; gap: 60px; align-items: start;">
                 <!-- Section Logo -->
                 <div class="footer-section">
-                    <img src="{{ asset('images/official_logo.png') }}" alt="Logo SMK Ala Delphi" style="height: 100px; width: auto; margin-bottom: 25px; background: white; padding: 10px; border-radius: 15px;">
+                    <img src="{{ asset('images/official_logo.png') }}" alt="Logo SMK Ala Delphi" style="height: 100px; width: auto; margin-bottom: 25px; background: white; padding: 10px; border-radius: 15px;" loading="lazy">
                     <h3 style="color: white; font-size: 1.5rem; margin-bottom: 15px;">SMK SWASTA ALA DELPHI</h3>
                     <p style="color: rgba(255,255,255,0.9); line-height: 1.6; font-size: 0.95rem;">Mencetak lulusan unggul, kompeten, dan berintegritas tinggi untuk masa depan Indonesia.</p>
                 </div>
